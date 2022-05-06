@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,19 +29,67 @@ public class AccountCreationCommandValidationTest {
     @Test
     void valid_create_checking_command() {
         boolean actual = commandValidator.validate("create checking 12345678 0.06");
-        Assertions.assertTrue(actual);
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_create_checking_command_with_no_create() {
+        boolean actual = commandValidator.validate("checking 12345678 0.06");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_checking_command_with_money_at_end() {
+        boolean actual = commandValidator.validate("create checking 12345678 0.06 1500");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_checking_command_with_misspelled_word() {
+        boolean actual = commandValidator.validate("create cheking 12345678 0.06");
+        assertFalse(actual);
     }
 
     @Test
     void valid_create_savings_command() {
         boolean actual = commandValidator.validate("craete savings 12345678 0.06");
-        Assertions.assertTrue(actual);
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_create_savings_command_with_no_create() {
+        boolean actual = commandValidator.validate("savings 12345678 0.06");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_savings_command_with_money_at_end() {
+        boolean actual = commandValidator.validate("create savings 12345678 0.06 1500");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_savings_command_with_misspelled_word() {
+        boolean actual = commandValidator.validate("create savings 12345678 0.06");
+        assertFalse(actual);
     }
 
     @Test
     void valid_create_cd_command() {
         boolean actual = commandValidator.validate("create cd 12345678 0.06 2000");
-        Assertions.assertTrue(actual);
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_create_cd_command_with_no_create() {
+        boolean actual = commandValidator.validate("cd 12345678 0.06");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_cd_command_with_misspelled_word() {
+        boolean actual = commandValidator.validate("created cd 12345678 0.06");
+        assertFalse(actual);
     }
 
     @Test
@@ -136,8 +183,38 @@ public class AccountCreationCommandValidationTest {
     }
 
     @Test
+    void invalid_create_cd_account_with_negative_amount_input() {
+        boolean actual = commandValidator.validateCDAmount("-1000");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_cd_account_with_letters_amount_input() {
+        boolean actual = commandValidator.validateCDAmount("3xx3");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_cd_account_with_special_characters_amount_input() {
+        boolean actual = commandValidator.validateCDAmount("3#!3");
+        assertFalse(actual);
+    }
+
+    @Test
     void valid_create_cd_account_with_min_amount_input() {
         boolean actual = commandValidator.validateCDAmount("1000");
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_create_cd_account_with_max_amount_input() {
+        boolean actual = commandValidator.validateCDAmount("10000");
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_create_cd_account_with_proper_amount_input() {
+        boolean actual = commandValidator.validateCDAmount("6000");
         assertTrue(actual);
     }
 }
