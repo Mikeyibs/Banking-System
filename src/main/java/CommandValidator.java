@@ -1,5 +1,6 @@
 public class CommandValidator {
     public Bank bank;
+    public CreateCommandValidator createCommandValidator;
 
     public CommandValidator(Bank bank) {
         this.bank = bank;
@@ -21,12 +22,12 @@ public class CommandValidator {
         }
     }
 
-    public boolean isInteger(String quickId) { // https://www.baeldung.com/java-check-string-number
-        if (quickId.length() == 0) {
+    public boolean isInteger(String num) { // https://www.baeldung.com/java-check-string-number
+        if (num.length() == 0) {
             return false;
         }
         try {
-            Double d = Double.parseDouble(quickId);
+            Double d = Double.parseDouble(num);
         } catch (NumberFormatException nfe) {
             return false;
         }

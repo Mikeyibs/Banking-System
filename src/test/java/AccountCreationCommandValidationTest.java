@@ -48,4 +48,28 @@ public class AccountCreationCommandValidationTest {
         boolean actual = commandValidator.validateID("1234567");
         assertFalse(actual);
     }
+
+    @Test
+    void invalid_with_single_single_letter_id_input() {
+        boolean actual = commandValidator.validateID("X1234567");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_with_single_special_character_id_input() {
+        boolean actual = commandValidator.validateID("123457#");
+        assertFalse(actual);
+    }
+
+    @Test
+    void empty_apr_input() {
+        boolean actual = commandValidator.validateAPR("");
+        assertFalse(actual);
+    }
+
+    @Test
+    void valid_apr_input() {
+        boolean actual = commandValidator.validateAPR("0.06");
+        assertTrue(actual);
+    }
 }
