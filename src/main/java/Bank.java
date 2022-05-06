@@ -25,4 +25,12 @@ public class Bank {
     public void deposit(String quickId, double amount) {
         accounts.get(quickId).deposit(amount);
     }
+
+    public boolean accountExistsByQuickID(String quickId) {
+        if (accounts.get(quickId) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
