@@ -15,7 +15,6 @@ public class AccountDepositCommandValidationTest {
     Account cd;
     DepositCommandValidator commandValidator;
 
-
     @BeforeEach
     void set_up() {
         bank = new Bank();
@@ -142,4 +141,83 @@ public class AccountDepositCommandValidationTest {
         assertFalse(actual);
     }
 
+    @Test
+    void valid_deposit_amount_savings() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("650", QUICK_ID);
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_deposit_amount_savings_one_dollar() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("1", QUICK_ID);
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_deposit_amount_savings_maximum() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("2500", QUICK_ID);
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_deposit_amount_savings_minimum() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("0", QUICK_ID);
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_deposit_amount_savings_decimal_amount() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("100.50", QUICK_ID);
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_deposit_amount_savings_negative_amount() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("-1", QUICK_ID);
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_deposit_amount_savings_above_maximum() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("3600", QUICK_ID);
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_deposit_amount_savings_letters() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("1x0x", QUICK_ID);
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_deposit_amount_savings_special_characters() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("1#!2", QUICK_ID);
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_deposit_amount_savings_double_decimal() {
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean actual = commandValidator.validateDepositAmount("100.50.50", QUICK_ID);
+        assertFalse(actual);
+    }
 }
