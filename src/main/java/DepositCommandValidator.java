@@ -12,21 +12,15 @@ public class DepositCommandValidator extends CommandValidator {
         }
     }
 
-    public boolean validateDepositCheckingAmount(String amount) {
-        if (isNum(amount) && isAmountInRangeChecking(amount)) {
-            return true;
-        } else {
-            return false;
+    public boolean validateDepositAmount(String amount, String quickId) {
+        if (isNum(amount)) {
+            if (bank.getAccounts().get(quickId).validateDepositAmount(amount)) {
+                return true;
+            } else {
+                return false;
+            }
         }
-    }
-
-    private boolean isAmountInRangeChecking(String amount) {
-        Double d = Double.parseDouble(amount);
-        if (d >= 0 && d <= 1000) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 }
 

@@ -7,4 +7,9 @@ public class CD extends Account {
     public CD(double apr, double money) {
         super(apr, money);
     }
+
+    @Override
+    public boolean validateDepositAmount(String amount) {
+        return false;
+    }
 }
