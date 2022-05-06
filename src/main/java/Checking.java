@@ -8,6 +8,7 @@ public class Checking extends Account {
         super(apr, 0);
     }
 
+    @Override
     public boolean validateDepositAmount(String amount) {
         if (isAmountInRangeChecking(amount)) {
             return true;
@@ -17,8 +18,8 @@ public class Checking extends Account {
     }
 
     private boolean isAmountInRangeChecking(String amount) {
-        Double d = Double.parseDouble(amount);
-        if (d >= 0 && d <= 1000) {
+        Double dbl = Double.valueOf(amount);
+        if (dbl >= 0 && dbl <= 1000) {
             return true;
         } else {
             return false;

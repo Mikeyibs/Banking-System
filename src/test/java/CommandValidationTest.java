@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CommadValidationTest {
+public class CommandValidationTest {
     public static final String QUICK_ID = ("12345678");
     public static final double APR = (0.06);
     public static final double MONEY = (2000);

@@ -18,8 +18,8 @@ public class Savings extends Account {
     }
 
     private boolean isAmountInRangeChecking(String amount) {
-        Double d = Double.parseDouble(amount);
-        if (d >= 0 && d <= 2500) {
+        Double dbl = Double.valueOf(amount);
+        if (dbl >= 0 && dbl <= 2500) {
             return true;
         } else {
             return false;

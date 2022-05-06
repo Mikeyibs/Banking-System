@@ -26,13 +26,13 @@ public class CommandValidator {
         }
     }
 
-    public boolean isNum(String num) { // https://www.baeldung.com/java-check-string-number
+    public boolean isNum(String num) {
         if (num.length() == 0) {
             return false;
         }
         try {
-            Double d = Double.parseDouble(num);
-        } catch (NumberFormatException nfe) {
+            Double dbl = Double.valueOf(num);
+        } catch (NumberFormatException ex) {
             return false;
         }
         return true;

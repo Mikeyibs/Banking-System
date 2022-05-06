@@ -16,8 +16,8 @@ public class CreateCommandValidator extends CommandValidator {
     }
 
     private boolean isAPRInRange(String apr) {
-        Double d = Double.parseDouble(apr);
-        if (d >= 0 && d <= 10) {
+        Double dbl = Double.valueOf(apr);
+        if (dbl >= 0 && dbl <= 10) {
             return true;
         } else {
             return false;
@@ -33,8 +33,8 @@ public class CreateCommandValidator extends CommandValidator {
     }
 
     private boolean isCDInRange(String amount) {
-        Double d = Double.parseDouble(amount);
-        if (d >= MIN_AMOUNT && d <= MAX_AMOUNT) {
+        Double dbl = Double.valueOf(amount);
+        if (dbl >= MIN_AMOUNT && dbl <= MAX_AMOUNT) {
             return true;
         } else {
             return false;
