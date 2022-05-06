@@ -1,7 +1,7 @@
 include:
   - template: Code-Quality.gitlab-ci.yml
 
-image: gradle:6.6.1-jdk11
+image: gradle:alpine
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -33,6 +33,7 @@ code_quality:
 
 test:
   stage: test
+  image: gradle:6.6.1-jdk11
   script:
     - 'gradle test jacocoTestReport'
   artifacts:
@@ -62,6 +63,8 @@ coverage-jdk11:
     - test
   artifacts:
     expose_as: 'Coverage Report'
-    paths: [builds/cobertura.xml]
+    paths: [ builds/cobertura.xml ]
     reports:
-      cobertura: builds/cobertura.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: builds/cobertura.xml
