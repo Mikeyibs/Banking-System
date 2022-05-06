@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,7 @@ public class AccountCreationCommandValidationTest {
     Account cd;
     CreateCommandValidator commandValidator;
 
+
     @BeforeEach
     void set_up() {
         bank = new Bank();
@@ -23,6 +25,24 @@ public class AccountCreationCommandValidationTest {
         cd = new CD(APR, MONEY);
 
         commandValidator = new CreateCommandValidator(bank);
+    }
+
+    @Test
+    void valid_create_checking_command() {
+        boolean actual = commandValidator.validate("create checking 12345678 0.06");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void valid_create_savings_command() {
+        boolean actual = commandValidator.validate("craete savings 12345678 0.06");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void valid_create_cd_command() {
+        boolean actual = commandValidator.validate("create cd 12345678 0.06 2000");
+        Assertions.assertTrue(actual);
     }
 
     @Test
@@ -88,24 +108,36 @@ public class AccountCreationCommandValidationTest {
     @Test
     void invalid_negative_apr_input() {
         boolean actual = commandValidator.validateAPR("-1");
-        assertTrue(actual);
+        assertFalse(actual);
     }
 
     @Test
     void invalid_apr_above_ten_input() {
         boolean actual = commandValidator.validateAPR("10.2");
-        assertTrue(actual);
+        assertFalse(actual);
     }
 
     @Test
     void invalid_apr_with_letters_input() {
         boolean actual = commandValidator.validateAPR("a8");
-        assertTrue(actual);
+        assertFalse(actual);
     }
 
     @Test
     void invalid_apr_with_special_char_as_input() {
         boolean actual = commandValidator.validateAPR("%1.3");
+        assertFalse(actual);
+    }
+
+    @Test
+    void invalid_create_cd_account_with_no_money_input() {
+        boolean actual = commandValidator.validateCDAmount("");
+        assertFalse(actual);
+    }
+
+    @Test
+    void valid_create_cd_account_with_min_amount_input() {
+        boolean actual = commandValidator.validateCDAmount("1000");
         assertTrue(actual);
     }
 }

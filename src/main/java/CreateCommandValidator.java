@@ -1,24 +1,14 @@
 public class CreateCommandValidator extends CommandValidator {
+    public static final double MIN_AMOUNT = (1000);
+    public static final double MAX_AMOUNT = (10000);
+
 
     public CreateCommandValidator(Bank bank) {
         super(bank);
     }
 
-    @Override
-    public boolean validate(String command) {
-        return false;
-    }
-
-    public boolean validateIDExists(String quickID) {
-        if (bank.accountExistsByQuickID(quickID)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public boolean validateAPR(String apr) {
-        if (isInteger(apr) && isAPRInRange(apr)) {
+        if (isNum(apr) && isAPRInRange(apr)) {
             return true;
         } else {
             return false;
@@ -33,4 +23,22 @@ public class CreateCommandValidator extends CommandValidator {
             return false;
         }
     }
+
+    public boolean validateCDAmount(String amount) {
+        if (isNum(amount) && isCDInRange(amount)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isCDInRange(String amount) {
+        Double d = Double.parseDouble(amount);
+        if (d >= MIN_AMOUNT && d <= MAX_AMOUNT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

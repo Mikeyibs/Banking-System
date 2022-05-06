@@ -24,7 +24,7 @@ public class CommadValidationTest {
 
     @Test
     void valid_create_checking_command() {
-        boolean actual = commandValidator.validate("create checking 12345678 0.06 ");
+        boolean actual = commandValidator.validate("create checking 12345678 0.06");
         Assertions.assertTrue(actual);
     }
 }
