@@ -72,4 +72,40 @@ public class AccountCreationCommandValidationTest {
         boolean actual = commandValidator.validateAPR("0.06");
         assertTrue(actual);
     }
+
+    @Test
+    void valid_apr_at_zero_input() {
+        boolean actual = commandValidator.validateAPR("0");
+        assertTrue(actual);
+    }
+
+    @Test
+    void valid_apr_at_ten_input() {
+        boolean actual = commandValidator.validateAPR("10");
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_negative_apr_input() {
+        boolean actual = commandValidator.validateAPR("-1");
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_apr_above_ten_input() {
+        boolean actual = commandValidator.validateAPR("10.2");
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_apr_with_letters_input() {
+        boolean actual = commandValidator.validateAPR("a8");
+        assertTrue(actual);
+    }
+
+    @Test
+    void invalid_apr_with_special_char_as_input() {
+        boolean actual = commandValidator.validateAPR("%1.3");
+        assertTrue(actual);
+    }
 }
