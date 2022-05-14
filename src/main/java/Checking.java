@@ -7,4 +7,22 @@ public class Checking extends Account {
     public Checking(double apr, double money) {
         super(apr, 0);
     }
+
+    @Override
+    public boolean validateDepositAmount(String amount) {
+        if (isAmountInRangeChecking(amount)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isAmountInRangeChecking(String amount) {
+        Double dbl = Double.valueOf(amount);
+        if (dbl >= 0 && dbl <= 1000) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

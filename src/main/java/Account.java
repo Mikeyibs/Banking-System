@@ -1,4 +1,4 @@
-public class Account {
+public abstract class Account {
     private double apr;
     private double money;
 
@@ -18,6 +18,8 @@ public class Account {
     public void deposit(double money) {
         this.money += money;
     }
+
+    public abstract boolean validateDepositAmount(String amount);
 
     public void withdraw(double amount) {
         if (amount > money) {
