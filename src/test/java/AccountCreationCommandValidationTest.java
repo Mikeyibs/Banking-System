@@ -1,3 +1,5 @@
+// Name: Michael Ibrahim | ID: mi374 | Section: 001
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,64 +30,48 @@ public class AccountCreationCommandValidationTest {
 
     @Test
     void valid_create_checking_command() {
-        bank.addAccount(QUICK_ID, checking);
-
         boolean create = commandValidator.validate("create checking 12345678 0.06");
         assertTrue(create);
     }
 
     @Test
     void invalid_create_checking_command_with_no_create() {
-        bank.addAccount(QUICK_ID, checking);
-
         boolean create = commandValidator.validate("checking 12345678 0.06");
         assertFalse(create);
     }
 
     @Test
     void invalid_create_checking_command_with_money_at_end() {
-        bank.addAccount(QUICK_ID, checking);
-
         boolean create = commandValidator.validate("create checking 12345678 0.06 1500");
         assertFalse(create);
     }
 
     @Test
     void valid_create_savings_command() {
-        bank.addAccount(QUICK_ID, savings);
-
         boolean create = commandValidator.validate("create savings 12345678 0.06");
         assertTrue(create);
     }
 
     @Test
     void invalid_create_savings_command_with_no_create() {
-        bank.addAccount(QUICK_ID, savings);
-
         boolean create = commandValidator.validate("savings 12345678 0.06");
         assertFalse(create);
     }
 
     @Test
     void invalid_create_savings_command_with_money_at_end() {
-        bank.addAccount(QUICK_ID, savings);
-
         boolean create = commandValidator.validate("create savings 12345678 0.06 1500");
         assertFalse(create);
     }
 
     @Test
     void valid_create_cd_command() {
-        bank.addAccount(QUICK_ID, cd);
-
         boolean create = commandValidator.validate("create cd 12345678 0.06 2000");
         assertTrue(create);
     }
 
     @Test
     void invalid_create_cd_command_with_no_create() {
-        bank.addAccount(QUICK_ID, cd);
-
         boolean create = commandValidator.validate("cd 12345678 0.06");
         assertFalse(create);
     }

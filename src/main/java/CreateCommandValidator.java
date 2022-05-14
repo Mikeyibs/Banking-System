@@ -1,3 +1,5 @@
+// Name: Michael Ibrahim | ID: mi374 | Section: 001
+
 public class CreateCommandValidator extends CommandValidator {
     public static final double MIN_AMOUNT = (1000);
     public static final double MAX_AMOUNT = (10000);
@@ -9,9 +11,12 @@ public class CreateCommandValidator extends CommandValidator {
 
     @Override
     public boolean validate(String command) {
-        if (validateIDExistsInBank(getID(command)) && validateAPR(getAPR(command))
-                && countCmds(command)) {
-            return true;
+        if (countCommands(command)) {
+            if (validateIDExistsInBank(getID(command)) && validateAPR(getAPR(command))) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

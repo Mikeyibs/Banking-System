@@ -1,3 +1,5 @@
+// Name: Michael Ibrahim | ID: mi374 | Section: 001
+
 public class DepositCommandValidator extends CommandValidator {
 
     public DepositCommandValidator(Bank bank) {
