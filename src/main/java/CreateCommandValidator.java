@@ -9,12 +9,19 @@ public class CreateCommandValidator extends CommandValidator {
 
     @Override
     public boolean validate(String command) {
-        if (bank.accountExistsByQuickID(parseString(command, 2)) &&
-                validateAPR(parseString(command, 3)) &&
-                countCmds(command)) {
+        if (validateIDExistsInBank(getID(command)) && validateAPR(getAPR(command))
+                && countCmds(command)) {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public boolean validateIDExistsInBank(String quickID) {
+        if (bank.accountExistsByQuickID(quickID)) {
+            return false;
+        } else {
+            return true;
         }
     }
 

@@ -24,8 +24,6 @@ public class CommandValidationTest {
 
     @Test
     void valid_create_checking_command() {
-        bank.addAccount(QUICK_ID, checking);
-
         boolean actual = commandValidator.validate("create checking 12345678 0.06");
         Assertions.assertTrue(actual);
     }
