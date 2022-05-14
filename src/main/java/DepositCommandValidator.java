@@ -4,6 +4,15 @@ public class DepositCommandValidator extends CommandValidator {
         super(bank);
     }
 
+    @Override
+    public boolean validate(String command) {
+        if (validateDepositAmount(parseString(command, 2), parseString(command, 1))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean validateDepositCommand(String command) {
         if (command == "deposit 12345678 500") {
             return true;
