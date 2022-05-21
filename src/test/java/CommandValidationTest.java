@@ -1,3 +1,5 @@
+// Name: Michael Ibrahim | ID: mi374 | Section: 001
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,6 @@ public class CommandValidationTest {
 
     @Test
     void valid_create_checking_command() {
-        bank.addAccount(QUICK_ID, checking);
-
         boolean actual = commandValidator.validate("create checking 12345678 0.06");
         Assertions.assertTrue(actual);
     }

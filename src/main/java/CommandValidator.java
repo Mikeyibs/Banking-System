@@ -1,3 +1,5 @@
+// Name: Michael Ibrahim | ID: mi374 | Section: 001
+
 import java.util.Objects;
 
 public class CommandValidator {
@@ -10,17 +12,13 @@ public class CommandValidator {
     }
 
     public boolean validate(String command) {
-        if (countCmds(command)) {
-            switch (parseString(command, 0)) {
-                case "create":
-                    return createValidator(command);
-                case "deposit":
-                    return depositValidator(command);
-                default:
-                    return false;
-            }
-        } else {
-            return false;
+        switch (parseString(command, 0)) {
+            case "create":
+                return createValidator(command);
+            case "deposit":
+                return depositValidator(command);
+            default:
+                return false;
         }
     }
 
@@ -34,23 +32,21 @@ public class CommandValidator {
         return depositCommandValidator.validate(command);
     }
 
-    public boolean countCmds(String command) {
-
+    public boolean countCommands(String command) {
         String[] arrStr = command.split(" ", 0);
-
-        if (Objects.equals(getType(command), "cd") && arrStr.length > 5) {
-            return false;
-        } else if (!Objects.equals(getType(command), "cd") && arrStr.length > 4) {
-            return false;
-        } else {
-            return true;
-        }
+        return validateLength(arrStr, getType(command));
     }
 
     public String getType(String command) {
-        String type = parseString(command, 1);
+        return parseString(command, 1);
+    }
 
-        return type;
+    public String getID(String command) {
+        return parseString(command, 2);
+    }
+
+    public String getAPR(String command) {
+        return parseString(command, 3);
     }
 
     public String parseString(String command, int limit) {
@@ -58,6 +54,30 @@ public class CommandValidator {
         String[] arrStr = command.split(" ", 0);
 
         return arrStr[limit];
+    }
+
+    public boolean validateLength(String[] arrStr, String type) {
+        if (Objects.equals(type, "cd")) {
+            if (arrStr.length == 5) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (Objects.equals(type, "checking")) {
+            if (arrStr.length == 4) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (Objects.equals(type, "savings")) {
+            if (arrStr.length == 4) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public boolean validateID(String quickId) {
