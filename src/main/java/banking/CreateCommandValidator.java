@@ -1,4 +1,4 @@
-// Name: Michael Ibrahim | ID: mi374 | Section: 001
+package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
 public class CreateCommandValidator extends CommandValidator {
     public static final double MIN_AMOUNT = (1000);

@@ -1,4 +1,4 @@
-// Name: Michael Ibrahim | ID: mi374 | Section: 001
+package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
 public abstract class Account {
     private double apr;
