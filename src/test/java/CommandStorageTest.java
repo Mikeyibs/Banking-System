@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CommandStorageTest {
@@ -20,6 +21,13 @@ public class CommandStorageTest {
         String command = "create checks 12345678 9.5";
         commandStorage.storeInvalidCommands(command);
         List<String> test = Arrays.asList(command);
+
+        Assertions.assertEquals(test, commandStorage.getInvalidCommands());
+    }
+
+    @Test
+    void invalid_no_command_stored() {
+        List<String> test = Collections.emptyList();
 
         Assertions.assertEquals(test, commandStorage.getInvalidCommands());
     }
@@ -42,5 +50,25 @@ public class CommandStorageTest {
         List<String> test = Arrays.asList(command, command2);
 
         Assertions.assertEquals(test, commandStorage.getInvalidCommands());
+    }
+
+    @Test
+    void valid_command_stored() {
+        String command = "create checking 12345678 0.06";
+        commandStorage.storeValidCommands(command);
+        List<String> test = Arrays.asList(command);
+
+        Assertions.assertEquals(test, commandStorage.getValidCommands());
+    }
+
+    @Test
+    void valid_multiple_commands_stored() {
+        String command = "create checking 12345678 0.06";
+        String command2 = "withdraw 12345678 500";
+        commandStorage.storeValidCommands(command);
+        commandStorage.storeValidCommands(command2);
+        List<String> test = Arrays.asList(command, command2);
+
+        Assertions.assertEquals(test, commandStorage.getValidCommands());
     }
 }
