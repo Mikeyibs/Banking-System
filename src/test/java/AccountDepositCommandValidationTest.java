@@ -1,10 +1,10 @@
 // Name: Michael Ibrahim | ID: mi374 | Section: 001
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountDepositCommandValidationTest {
     public static final String QUICK_ID = ("12345678");
@@ -27,40 +27,21 @@ public class AccountDepositCommandValidationTest {
         commandValidator = new DepositCommandValidator(bank);
     }
 
+
     @Test
-    void valid_deposit_command() {
-        boolean deposit = commandValidator.validateDepositCommand("deposit 12345678 500");
-        assertTrue(deposit);
+    void valid_account_exists() {
+        bank.addAccount(QUICK_ID, checking);
+
+        boolean deposit = commandValidator.validateAccountExists(QUICK_ID);
+        Assertions.assertTrue(deposit);
     }
 
     @Test
-    void invalid_deposit_command_with_out_stating_deposit() {
-        boolean deposit = commandValidator.validateDepositCommand("12345678 500");
-        assertFalse(deposit);
-    }
+    void invalid_account_doesnt_exist() {
+        bank.addAccount(QUICK_ID, checking);
 
-    @Test
-    void invalid_deposit_command_with_two_numbers() {
-        boolean deposit = commandValidator.validateDepositCommand("deposit 12345678 500 70");
-        assertFalse(deposit);
-    }
-
-    @Test
-    void invalid_deposit_command_with_special_characters() {
-        boolean deposit = commandValidator.validateDepositCommand("deposit 12345678 5@#");
-        assertFalse(deposit);
-    }
-
-    @Test
-    void invalid_deposit_command_with_letters() {
-        boolean deposit = commandValidator.validateDepositCommand("deposit 12345678 x0x");
-        assertFalse(deposit);
-    }
-
-    @Test
-    void invalid_deposit_command_with_a_negative_number() {
-        boolean deposit = commandValidator.validateDepositCommand("deposit 12345678 -200");
-        assertFalse(deposit);
+        boolean deposit = commandValidator.validateAccountExists(QUICK_ID);
+        Assertions.assertTrue(deposit);
     }
 
     @Test
@@ -221,5 +202,85 @@ public class AccountDepositCommandValidationTest {
 
         boolean deposit = commandValidator.validateDepositAmount("100.50.50", QUICK_ID);
         assertFalse(deposit);
+    }
+
+    @Test
+    void invalid_deposit_length_more_then_required() {
+        String command = ("deposit 12345678 1000 230");
+        boolean deposit = commandValidator.validateDepositLength(command);
+        assertFalse(deposit);
+    }
+
+    @Test
+    void valid_deposit_length() {
+        String command = ("deposit 12345678 100");
+        boolean deposit = commandValidator.validateDepositLength(command);
+        assertTrue(deposit);
+    }
+
+    @Test
+    void invalid_deposit_length_less_then_required() {
+        String command = ("deposit 12345678");
+        boolean deposit = commandValidator.validateDepositLength(command);
+        assertFalse(deposit);
+    }
+
+    @Test
+    void valid_deposit_into_checking_account() {
+        String command = ("deposit 12345678 750");
+        bank.addAccount(QUICK_ID, checking);
+
+        boolean deposit = commandValidator.validate(command);
+        assertTrue(deposit);
+    }
+
+    @Test
+    void valid_deposit_into_savings_account() {
+        String command = ("deposit 12345678 2200");
+        bank.addAccount(QUICK_ID, savings);
+
+        boolean deposit = commandValidator.validate(command);
+        assertTrue(deposit);
+    }
+
+    @Test
+    void invalid_deposit_into_account_that_does_not_exist() {
+        String command = ("deposit 12345678 2200");
+
+        boolean deposit = commandValidator.validate(command);
+        assertFalse(deposit);
+    }
+
+    @Test
+    void invalid_deposit_into_CD_account() {
+        String command = ("deposit 12345678 2200");
+        bank.addAccount(QUICK_ID, cd);
+
+        boolean deposit = commandValidator.validate(command);
+        assertFalse(deposit);
+    }
+
+    @Test
+    void valid_get_ID_command() {
+        String command = ("deposit 12345678 750");
+
+        String deposit = commandValidator.getID(command);
+        assertEquals(QUICK_ID, deposit);
+    }
+
+    @Test
+    void invalid_get_ID_command() {
+        String command = ("12345678 750");
+
+        String deposit = commandValidator.getID(command);
+        assertEquals("750", deposit);
+    }
+
+    @Test
+    void valid_get_amount_command() {
+        String command = ("deposit 12345678 750");
+
+        String deposit = commandValidator.getAmount(command);
+        assertEquals("750", deposit);
     }
 }

@@ -17,6 +17,16 @@ public class Checking extends Account {
         }
     }
 
+    @Override
+    public boolean validateWithdrawAmount(String amount) {
+        Double dbl = Double.valueOf(amount);
+        if (dbl >= 0 && dbl <= 400) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean isAmountInRangeChecking(String amount) {
         Double dbl = Double.valueOf(amount);
         if (dbl >= 0 && dbl <= 1000) {

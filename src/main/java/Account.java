@@ -23,6 +23,8 @@ public abstract class Account {
 
     public abstract boolean validateDepositAmount(String amount);
 
+    public abstract boolean validateWithdrawAmount(String amount);
+
     public void withdraw(double amount) {
         if (amount > money) {
             money = 0;

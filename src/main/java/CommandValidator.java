@@ -6,6 +6,7 @@ public class CommandValidator {
     public Bank bank;
     public CreateCommandValidator createCommandValidator;
     public DepositCommandValidator depositCommandValidator;
+    public WithdrawCommandValidator withdrawCommandValidator;
 
     public CommandValidator(Bank bank) {
         this.bank = bank;
@@ -17,6 +18,8 @@ public class CommandValidator {
                 return createValidator(command);
             case "deposit":
                 return depositValidator(command);
+            case "withdraw":
+                return withdrawValidator(command);
             default:
                 return false;
         }
@@ -30,6 +33,11 @@ public class CommandValidator {
     public boolean depositValidator(String command) {
         depositCommandValidator = new DepositCommandValidator(bank);
         return depositCommandValidator.validate(command);
+    }
+
+    public boolean withdrawValidator(String command) {
+        withdrawCommandValidator = new WithdrawCommandValidator(bank);
+        return withdrawCommandValidator.validate(command);
     }
 
     public boolean countCommands(String command) {

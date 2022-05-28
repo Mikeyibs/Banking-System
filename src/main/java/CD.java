@@ -12,4 +12,9 @@ public class CD extends Account {
     public boolean validateDepositAmount(String amount) {
         return false;
     }
+
+    @Override
+    public boolean validateWithdrawAmount(String amount) {
+        return false;
+    }
 }

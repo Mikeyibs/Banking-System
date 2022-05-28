@@ -1,13 +1,7 @@
-// Name: Michael Ibrahim | ID: mi374 | Section: 001
+public class WithdrawCommandValidator extends CommandValidator {
 
-public class DepositCommandValidator extends CommandValidator {
-
-    public DepositCommandValidator(Bank bank) {
+    public WithdrawCommandValidator(Bank bank) {
         super(bank);
-    }
-
-    public String getAmount(String command) {
-        return parseString(command, 2);
     }
 
     @Override
@@ -15,11 +9,15 @@ public class DepositCommandValidator extends CommandValidator {
         return parseString(command, 1);
     }
 
+    public String getAmount(String command) {
+        return parseString(command, 2);
+    }
+
     @Override
     public boolean validate(String command) {
         if (validateAccountExists(getID(command))) {
-            if (validateDepositAmount(getAmount(command), getID(command)) &&
-                    validateDepositLength(command) && validateID(getID(command))) {
+            if (validateWithdrawAmount(getAmount(command), getID(command)) &&
+                    validateID(getID(command)) && validateWithdrawLength(command)) {
                 return true;
             } else {
                 return false;
@@ -29,7 +27,7 @@ public class DepositCommandValidator extends CommandValidator {
         }
     }
 
-    public boolean validateDepositLength(String command) {
+    public boolean validateWithdrawLength(String command) {
         String[] arrStr = command.split(" ", 0);
         if (arrStr.length == 3) {
             return true;
@@ -38,9 +36,9 @@ public class DepositCommandValidator extends CommandValidator {
         }
     }
 
-    public boolean validateDepositAmount(String amount, String quickId) {
+    public boolean validateWithdrawAmount(String amount, String quickId) {
         if (isNum(amount)) {
-            if (bank.getAccounts().get(quickId).validateDepositAmount(amount)) {
+            if (bank.getAccounts().get(quickId).validateWithdrawAmount(amount)) {
                 return true;
             } else {
                 return false;
@@ -53,4 +51,3 @@ public class DepositCommandValidator extends CommandValidator {
         return bank.accountExistsByQuickID(quickId);
     }
 }
-
