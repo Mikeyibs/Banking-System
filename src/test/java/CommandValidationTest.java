@@ -45,11 +45,4 @@ public class CommandValidationTest {
         Assertions.assertEquals("12345678", test);
     }
 
-    @Test
-    void validate_type_method() {
-        String actual = "create checking account";
-        String test = commandValidator.getType(actual);
-
-        Assertions.assertEquals("checking", test);
-    }
 }

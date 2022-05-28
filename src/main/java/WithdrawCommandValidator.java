@@ -4,7 +4,6 @@ public class WithdrawCommandValidator extends CommandValidator {
         super(bank);
     }
 
-    @Override
     public String getID(String command) {
         return parseString(command, 1);
     }

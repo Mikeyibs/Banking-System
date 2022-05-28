@@ -10,7 +10,6 @@ public class DepositCommandValidator extends CommandValidator {
         return parseString(command, 2);
     }
 
-    @Override
     public String getID(String command) {
         return parseString(command, 1);
     }

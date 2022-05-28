@@ -1,7 +1,5 @@
 // Name: Michael Ibrahim | ID: mi374 | Section: 001
 
-import java.util.Objects;
-
 public class CommandValidator {
     public Bank bank;
     public CreateCommandValidator createCommandValidator;
@@ -40,52 +38,11 @@ public class CommandValidator {
         return withdrawCommandValidator.validate(command);
     }
 
-    public boolean countCommands(String command) {
-        String[] arrStr = command.split(" ", 0);
-        return validateLength(arrStr, getType(command));
-    }
-
-    public String getType(String command) {
-        return parseString(command, 1);
-    }
-
-    public String getID(String command) {
-        return parseString(command, 2);
-    }
-
-    public String getAPR(String command) {
-        return parseString(command, 3);
-    }
-
     public String parseString(String command, int limit) {
 
         String[] arrStr = command.split(" ", 0);
 
         return arrStr[limit];
-    }
-
-    public boolean validateLength(String[] arrStr, String type) {
-        if (Objects.equals(type, "cd")) {
-            if (arrStr.length == 5) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (Objects.equals(type, "checking")) {
-            if (arrStr.length == 4) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (Objects.equals(type, "savings")) {
-            if (arrStr.length == 4) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
 
     public boolean validateID(String quickId) {
