@@ -1,4 +1,4 @@
-// Name: Michael Ibrahim | ID: mi374 | Section: 001
+package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
 import java.util.HashMap;
 import java.util.Map;

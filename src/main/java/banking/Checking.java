@@ -1,10 +1,10 @@
-// Name: Michael Ibrahim | ID: mi374 | Section: 001
+package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
-public class Savings extends Account {
+public class Checking extends Account {
     private double apr;
     private double money;
 
-    public Savings(double apr, double money) {
+    public Checking(double apr, double money) {
         super(apr, 0);
     }
 
@@ -20,7 +20,7 @@ public class Savings extends Account {
     @Override
     public boolean validateWithdrawAmount(String amount) {
         Double dbl = Double.valueOf(amount);
-        if (dbl >= 0 && dbl <= 1000) {
+        if (dbl >= 0 && dbl <= 400) {
             return true;
         } else {
             return false;
@@ -29,7 +29,7 @@ public class Savings extends Account {
 
     private boolean isAmountInRangeChecking(String amount) {
         Double dbl = Double.valueOf(amount);
-        if (dbl >= 0 && dbl <= 2500) {
+        if (dbl >= 0 && dbl <= 1000) {
             return true;
         } else {
             return false;

@@ -1,3 +1,5 @@
+package banking;
+
 public class WithdrawCommandProcessor extends CommandProcessor {
 
     public WithdrawCommandProcessor(Bank bank) {

@@ -1,3 +1,5 @@
+package banking;
+
 public class WithdrawCommandValidator extends CommandValidator {
 
     public WithdrawCommandValidator(Bank bank) {
