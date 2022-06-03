@@ -82,6 +82,105 @@ public class BankTest {
     }
 
     @Test
+    void remove_checking_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.removeAccount(QUICK_ID);
+        assertEquals(0, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_two_checking_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount(SECOND_QUICK_ID, checking);
+        bank.removeAccount(QUICK_ID);
+        bank.removeAccount(SECOND_QUICK_ID);
+
+        assertEquals(0, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_one_of_two_checking_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount(SECOND_QUICK_ID, checking);
+        bank.removeAccount(QUICK_ID);
+
+        assertEquals(1, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_savings_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, savings);
+        bank.removeAccount(QUICK_ID);
+        assertEquals(0, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_two_savings_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, savings);
+        bank.addAccount(SECOND_QUICK_ID, savings);
+        bank.removeAccount(QUICK_ID);
+        bank.removeAccount(SECOND_QUICK_ID);
+
+        assertEquals(0, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_one_of_two_savings_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, savings);
+        bank.addAccount(SECOND_QUICK_ID, savings);
+        bank.removeAccount(QUICK_ID);
+
+        assertEquals(1, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_cd_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.removeAccount(QUICK_ID);
+        assertEquals(0, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_two_cd_accounts_from_bank() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.addAccount(SECOND_QUICK_ID, cd);
+        bank.removeAccount(QUICK_ID);
+        bank.removeAccount(SECOND_QUICK_ID);
+
+        assertEquals(0, bank.getAccounts().size());
+    }
+
+    @Test
+    void remove_one_of_two_cd_accounts_in_bank() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.addAccount(SECOND_QUICK_ID, cd);
+        bank.removeAccount(QUICK_ID);
+
+        assertEquals(1, bank.getAccounts().size());
+    }
+
+    @Test
+    void add_ten_accounts_to_bank_and_remove_five() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.addAccount(SECOND_QUICK_ID, checking);
+        bank.addAccount("99988765", checking);
+        bank.addAccount("11223344", checking);
+        bank.addAccount("00998877", checking);
+        bank.addAccount("44556677", checking);
+        bank.addAccount("33445566", checking);
+        bank.addAccount("77889900", checking);
+        bank.addAccount("22334455", checking);
+        bank.addAccount("88776655", checking);
+
+        bank.removeAccount("99988765");
+        bank.removeAccount("00998877");
+        bank.removeAccount("44556677");
+        bank.removeAccount("33445566");
+        bank.removeAccount("77889900");
+        assertEquals(5, bank.getAccounts().size());
+    }
+
+    @Test
     void deposit_money_to_checking_account() {
         bank.addAccount(QUICK_ID, checking);
 
@@ -226,4 +325,6 @@ public class BankTest {
         Account actual = bank.getAccounts().get(QUICK_ID);
         assertTrue(actual.getMoney() == 0);
     }
+
+
 }

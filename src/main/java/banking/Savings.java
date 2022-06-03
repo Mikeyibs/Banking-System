@@ -35,4 +35,10 @@ public class Savings extends Account {
             return false;
         }
     }
+
+    @Override
+    public void passTime() {
+        this.month += 1;
+        aprCalculation();
+    }
 }

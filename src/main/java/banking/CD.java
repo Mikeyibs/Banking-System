@@ -17,4 +17,10 @@ public class CD extends Account {
     public boolean validateWithdrawAmount(String amount) {
         return false;
     }
+
+    @Override
+    public void passTime() {
+        this.month += 1;
+        aprCalculation();
+    }
 }
