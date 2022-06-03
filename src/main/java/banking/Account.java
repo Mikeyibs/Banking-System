@@ -3,14 +3,16 @@ package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 public abstract class Account {
     protected int month;
     protected double calcAPR;
-    private double apr;
-    private double money;
+    protected double apr;
+    protected double money;
+    protected boolean withdrawRestriction;
 
     public Account(double apr, double money) {
         this.apr = apr;
         this.money = money;
         this.month = 0;
         this.calcAPR = ((apr / 100) / 12);
+        this.withdrawRestriction = true;
     }
 
     public double getApr() {
@@ -29,6 +31,10 @@ public abstract class Account {
         return month;
     }
 
+    public boolean getWithdrawRestrction() {
+        return this.withdrawRestriction;
+    }
+
     public void deposit(double money) {
         this.money += money;
     }
@@ -43,13 +49,7 @@ public abstract class Account {
         this.money = this.money + calc;
     }
 
-    public void withdraw(double amount) {
-        if (amount > money) {
-            money = 0;
-        } else {
-            money -= amount;
-        }
-    }
+    public abstract void withdraw(double amount);
 
     public abstract boolean validateDepositAmount(String amount);
 

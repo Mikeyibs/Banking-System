@@ -18,6 +18,15 @@ public class Checking extends Account {
     }
 
     @Override
+    public void withdraw(double amount) {
+        if (amount > money) {
+            money = 0;
+        } else {
+            money -= amount;
+        }
+    }
+
+    @Override
     public boolean validateWithdrawAmount(String amount) {
         Double dbl = Double.valueOf(amount);
         if (dbl >= 0 && dbl <= 400) {

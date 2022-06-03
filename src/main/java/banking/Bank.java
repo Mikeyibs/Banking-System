@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Bank {
-    private Map<String, Account> accounts;
+    private final Map<String, Account> accounts;
+    CommandStorage commands;
 
     Bank() {
         accounts = new HashMap<>();
@@ -62,6 +63,7 @@ public class Bank {
 
         for (int y = 0; y < removedAccounts.size(); y++) {
             removeAccount(removedAccounts.get(y));
+            commands.removeCommands(removedAccounts.get(y));
         }
     }
 }

@@ -71,4 +71,38 @@ public class CommandStorageTest {
 
         Assertions.assertEquals(test, commandStorage.getValidCommands());
     }
+
+    @Test
+    void valid_removal_of_commands() {
+        String command = "create checking 12345678  0.06";
+        commandStorage.storeValidCommands(command);
+        commandStorage.removeCommands("12345678");
+        List<String> test = Collections.emptyList();
+
+        Assertions.assertEquals(test, commandStorage.getValidCommands());
+    }
+
+    @Test
+    void valid_removal_of_correct_commands() {
+        String command = "transfer 12345678 22334455 400";
+        String command2 = "create checking 12345678 500";
+        commandStorage.storeValidCommands(command);
+        commandStorage.storeValidCommands(command2);
+        commandStorage.removeCommands("12345678");
+        List<String> test = Arrays.asList(command);
+
+        Assertions.assertEquals(test, commandStorage.getValidCommands());
+    }
+
+    @Test
+    void valid_removal_of_correct_commands_with_capital_t() {
+        String command = "Transfer 12345678 22334455 400";
+        String command2 = "create checking 12345678 500";
+        commandStorage.storeValidCommands(command);
+        commandStorage.storeValidCommands(command2);
+        commandStorage.removeCommands("12345678");
+        List<String> test = Arrays.asList(command);
+
+        Assertions.assertEquals(test, commandStorage.getValidCommands());
+    }
 }

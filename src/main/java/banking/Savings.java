@@ -37,8 +37,19 @@ public class Savings extends Account {
     }
 
     @Override
+    public void withdraw(double amount) {
+        if (amount > money) {
+            money = 0;
+            this.withdrawRestriction = false;
+        } else {
+            money -= amount;
+        }
+    }
+
+    @Override
     public void passTime() {
         this.month += 1;
         aprCalculation();
+        this.withdrawRestriction = true;
     }
 }

@@ -15,12 +15,30 @@ public class CD extends Account {
 
     @Override
     public boolean validateWithdrawAmount(String amount) {
-        return false;
+        double dbl = Double.parseDouble(amount);
+        return dbl >= getMoney();
+    }
+
+    @Override
+    public void aprCalculation() {
+        double calc = (getCalcAPR() * getMoney()) * 4;
+        this.money = this.money + calc;
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (amount > money) {
+            money = 0;
+            this.withdrawRestriction = false;
+        } else {
+            money -= amount;
+        }
     }
 
     @Override
     public void passTime() {
         this.month += 1;
         aprCalculation();
+        this.withdrawRestriction = getMonth() > 11;
     }
 }
