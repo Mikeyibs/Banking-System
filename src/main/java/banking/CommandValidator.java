@@ -5,6 +5,8 @@ public class CommandValidator {
     public CreateCommandValidator createCommandValidator;
     public DepositCommandValidator depositCommandValidator;
     public WithdrawCommandValidator withdrawCommandValidator;
+    public PassTimeCommandValidator passTimeCommandValidator;
+    public TransferCommandValidator transferCommandValidator;
 
     public CommandValidator(Bank bank) {
         this.bank = bank;
@@ -20,9 +22,16 @@ public class CommandValidator {
                 return withdrawValidator(command);
             case "pass":
                 return passValidator(command);
+            case "transfer":
+                return transferValidator(command);
             default:
                 return false;
         }
+    }
+
+    private boolean transferValidator(String command) {
+        transferCommandValidator = new TransferCommandValidator(bank);
+        return transferCommandValidator.validate(command);
     }
 
     public boolean createValidator(String command) {
@@ -41,7 +50,8 @@ public class CommandValidator {
     }
 
     public boolean passValidator(String command) {
-        return false;
+        passTimeCommandValidator = new PassTimeCommandValidator(bank);
+        return passTimeCommandValidator.validate(command);
     }
 
     public String parseString(String command, int limit) {

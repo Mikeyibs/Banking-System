@@ -22,10 +22,13 @@ public class CommandProcessor {
                 break;
             case "withdraw":
                 processWithdraw(command);
+                break;
             case "pass":
                 processPassTime(command);
+                break;
             case "transfer":
                 processTransfer(command);
+                break;
             default:
                 break;
         }

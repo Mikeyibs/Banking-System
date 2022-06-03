@@ -38,6 +38,15 @@ public class CommandProcessorTest {
     }
 
     @Test
+    void process_two_valid_create_commands() {
+        commandProcessor.processor(VALID_CHECKING_CMD);
+        commandProcessor.processor(VALID_SAVINGS_CMD);
+
+        Assertions.assertTrue(bank.accountExistsByQuickID("12345678"));
+        Assertions.assertTrue(bank.accountExistsByQuickID("33225566"));
+    }
+
+    @Test
     void process_valid_deposit_into_checking() {
         commandProcessor.processor(VALID_CHECKING_CMD);
 
@@ -47,12 +56,52 @@ public class CommandProcessorTest {
     }
 
     @Test
+    void process_valid_deposit_into_checking_twice() {
+        commandProcessor.processor(VALID_CHECKING_CMD);
+
+        commandProcessor.processor(VALID_DEPOSIT_CHECKING_CMD);
+        commandProcessor.processor(VALID_DEPOSIT_CHECKING_CMD);
+
+        Assertions.assertEquals(1000, bank.getAccounts().get("12345678").getMoney());
+    }
+
+    @Test
     void process_valid_deposit_into_savings() {
         commandProcessor.processor(VALID_SAVINGS_CMD);
 
         commandProcessor.processor(VALID_DEPOSIT_SAVINGS_CMD);
 
         Assertions.assertEquals(500, bank.getAccounts().get("33225566").getMoney());
+    }
+
+    @Test
+    void process_valid_deposit_into_savings_twice() {
+        commandProcessor.processor(VALID_SAVINGS_CMD);
+
+        commandProcessor.processor(VALID_DEPOSIT_SAVINGS_CMD);
+        commandProcessor.processor(VALID_DEPOSIT_SAVINGS_CMD);
+
+        Assertions.assertEquals(1000, bank.getAccounts().get("33225566").getMoney());
+    }
+
+    @Test
+    void process_back_to_back_deposits_from_two_different_account_types() {
+        commandProcessor.processor(VALID_CHECKING_CMD);
+        commandProcessor.processor(VALID_SAVINGS_CMD);
+
+        commandProcessor.processor(VALID_DEPOSIT_CHECKING_CMD);
+        commandProcessor.processor(VALID_DEPOSIT_SAVINGS_CMD);
+
+        Assertions.assertEquals(500, bank.getAccounts().get("33225566").getMoney());
+        Assertions.assertEquals(500, bank.getAccounts().get("12345678").getMoney());
+    }
+
+    @Test
+    void process_withdraw_from_checking_command() {
+        commandProcessor.processor(VALID_CHECKING_CMD);
+
+        commandProcessor.processor(VALID_DEPOSIT_CHECKING_CMD);
+        commandProcessor.processor("withdraw 12345678 300");
     }
 
     @Test
