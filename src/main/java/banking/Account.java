@@ -31,7 +31,7 @@ public abstract class Account {
         return month;
     }
 
-    public boolean getWithdrawRestrction() {
+    public boolean getWithdrawRestriction() {
         return this.withdrawRestriction;
     }
 
@@ -49,7 +49,18 @@ public abstract class Account {
         this.money = this.money + calc;
     }
 
-    public abstract void withdraw(double amount);
+    protected void withdrawCalculation(double amount) {
+        if (amount > money) {
+            money = 0;
+        } else {
+            money -= amount;
+        }
+    }
+
+    public void withdraw(double amount) {
+        withdrawCalculation(amount);
+        this.withdrawRestriction = false;
+    }
 
     public abstract boolean validateDepositAmount(String amount);
 

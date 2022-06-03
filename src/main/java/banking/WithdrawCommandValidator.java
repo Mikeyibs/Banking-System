@@ -18,7 +18,8 @@ public class WithdrawCommandValidator extends CommandValidator {
     public boolean validate(String command) {
         if (validateAccountExists(getID(command))) {
             if (validateWithdrawAmount(getAmount(command), getID(command)) &&
-                    validateID(getID(command)) && validateWithdrawLength(command)) {
+                    validateID(getID(command)) && validateWithdrawLength(command)
+                    && accountCanWithdrawThisMonth(getID(command))) {
                 return true;
             } else {
                 return false;
@@ -31,6 +32,14 @@ public class WithdrawCommandValidator extends CommandValidator {
     public boolean validateWithdrawLength(String command) {
         String[] arrStr = command.split(" ", 0);
         if (arrStr.length == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean accountCanWithdrawThisMonth(String quickId) {
+        if (bank.getAccounts().get(quickId).getWithdrawRestriction()) {
             return true;
         } else {
             return false;

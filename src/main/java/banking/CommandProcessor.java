@@ -4,6 +4,9 @@ public class CommandProcessor {
     public Bank bank;
     CreateCommandProcessor createProcessor;
     DepositCommandProcessor depositProcessor;
+    WithdrawCommandProcessor withdrawProcessor;
+    PassTimeCommandProcessor passTimeProcessor;
+    TransferCommandProcessor transferProcessor;
 
     public CommandProcessor(Bank bank) {
         this.bank = bank;
@@ -17,6 +20,12 @@ public class CommandProcessor {
             case "deposit":
                 processDeposit(command);
                 break;
+            case "withdraw":
+                processWithdraw(command);
+            case "pass":
+                processPassTime(command);
+            case "transfer":
+                processTransfer(command);
             default:
                 break;
         }
@@ -32,6 +41,24 @@ public class CommandProcessor {
         depositProcessor = new DepositCommandProcessor(bank);
 
         depositProcessor.processor(command);
+    }
+
+    public void processWithdraw(String command) {
+        withdrawProcessor = new WithdrawCommandProcessor(bank);
+
+        withdrawProcessor.processor(command);
+    }
+
+    public void processPassTime(String command) {
+        passTimeProcessor = new PassTimeCommandProcessor(bank);
+
+        passTimeProcessor.processor(command);
+    }
+
+    public void processTransfer(String command) {
+        transferProcessor = new TransferCommandProcessor(bank);
+
+        transferProcessor.processor(command);
     }
 
     public String parseString(String command, int limit) {

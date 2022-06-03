@@ -57,12 +57,13 @@ public class WithdrawCommandProcessorTest {
 
     @Test
     void valid_withdraw_twice_from_savings() {
-        create.createSavingsAccount("33445566", 0.06);
+        create.createSavingsAccount("33445566", 1.0);
         deposit.deposit("33445566", 1000);
         withdraw.processor("withdraw 33445566 500");
+        bank.passTime(1);
         withdraw.processor("withdraw 33445566 250");
 
-        Assertions.assertEquals(250, bank.getAccounts().get("33445566").getMoney());
+        Assertions.assertEquals(250.41666666666669, bank.getAccounts().get("33445566").getMoney());
     }
 
     @Test
@@ -72,5 +73,14 @@ public class WithdrawCommandProcessorTest {
         withdraw.processor("withdraw 33445566 500.50");
 
         Assertions.assertEquals(499.50, bank.getAccounts().get("33445566").getMoney());
+    }
+
+    @Test
+    void valid_withdraw_after_12_months_from_cd() {
+        create.createCDAccount("12345678", 1.2, 1100);
+        bank.passTime(12);
+        withdraw.processor("withdraw 12345678 500");
+
+        Assertions.assertEquals(600, bank.getAccounts().get("12345678").getMoney());
     }
 }

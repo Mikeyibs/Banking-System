@@ -325,4 +325,13 @@ public class TransferCommandValidatorTest {
         boolean transfer = commandValidator.validate(COMMAND);
         Assertions.assertFalse(transfer);
     }
+
+    @Test
+    void invalid_transfer_from_cd_to_checking_account() {
+        processor.processor("create cd 12345678 1.0 1500");
+        processor.processor("create checking 22334455 1.0");
+
+        boolean transfer = commandValidator.validate("transfer 12345678 22334455 400");
+        Assertions.assertFalse(transfer);
+    }
 }

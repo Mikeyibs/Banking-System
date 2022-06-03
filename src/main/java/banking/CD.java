@@ -6,6 +6,7 @@ public class CD extends Account {
 
     public CD(double apr, double money) {
         super(apr, money);
+        this.withdrawRestriction = false;
     }
 
     @Override
@@ -23,16 +24,6 @@ public class CD extends Account {
     public void aprCalculation() {
         double calc = (getCalcAPR() * getMoney()) * 4;
         this.money = this.money + calc;
-    }
-
-    @Override
-    public void withdraw(double amount) {
-        if (amount > money) {
-            money = 0;
-            this.withdrawRestriction = false;
-        } else {
-            money -= amount;
-        }
     }
 
     @Override

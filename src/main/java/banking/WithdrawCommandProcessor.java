@@ -10,9 +10,7 @@ public class WithdrawCommandProcessor extends CommandProcessor {
     public void processor(String command) {
         Double amount = getWithdrawAmt(command);
         String quickID = getWithdrawID(command);
-        if (amount >= 0) {
-            withdraw(quickID, amount);
-        }
+        withdraw(quickID, amount);
     }
 
     public void withdraw(String quickID, double amount) {

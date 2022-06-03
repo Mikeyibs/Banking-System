@@ -19,11 +19,7 @@ public class Checking extends Account {
 
     @Override
     public void withdraw(double amount) {
-        if (amount > money) {
-            money = 0;
-        } else {
-            money -= amount;
-        }
+        withdrawCalculation(amount);
     }
 
     @Override

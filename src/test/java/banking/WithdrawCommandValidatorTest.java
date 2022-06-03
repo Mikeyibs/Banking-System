@@ -201,4 +201,81 @@ public class WithdrawCommandValidatorTest {
         boolean actual = commandValidator.validate("withdraw 12345678 400");
         Assertions.assertFalse(actual);
     }
+
+    @Test
+    void valid_withdraw_from_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.passTime(12);
+
+        boolean actual = commandValidator.validate("withdraw 12345678 2500");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void valid_greater_than_max_withdraw_amount_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.passTime(12);
+
+        boolean actual = commandValidator.validate("withdraw 12345678 15000");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void invalid_withdraw_with_no_ID() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.passTime(12);
+
+        boolean actual = commandValidator.validate("withdraw 2500");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_withdraw_from_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+
+        boolean actual = commandValidator.validate("withdraw 12345678 2500");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_withdraw_negative_amount_from_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+
+        boolean actual = commandValidator.validate("withdraw 12345678 -2000");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_withdraw_less_then_required_from_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+
+        boolean actual = commandValidator.validate("withdraw 12345678 1100");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void valid_withdraw_after_12_months_from_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.passTime(12);
+
+        boolean actual = commandValidator.accountCanWithdrawThisMonth(QUICK_ID);
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void invalid_withdraw_with_no_months_passing_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+
+        boolean actual = commandValidator.accountCanWithdrawThisMonth(QUICK_ID);
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_withdraw_with_only_11_months_passing_cd_account() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.passTime(11);
+
+        boolean actual = commandValidator.accountCanWithdrawThisMonth(QUICK_ID);
+        Assertions.assertFalse(actual);
+    }
 }

@@ -18,6 +18,8 @@ public class CommandValidator {
                 return depositValidator(command);
             case "withdraw":
                 return withdrawValidator(command);
+            case "pass":
+                return passValidator(command);
             default:
                 return false;
         }
@@ -36,6 +38,10 @@ public class CommandValidator {
     public boolean withdrawValidator(String command) {
         withdrawCommandValidator = new WithdrawCommandValidator(bank);
         return withdrawCommandValidator.validate(command);
+    }
+
+    public boolean passValidator(String command) {
+        return false;
     }
 
     public String parseString(String command, int limit) {
