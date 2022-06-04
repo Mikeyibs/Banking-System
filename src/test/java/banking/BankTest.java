@@ -366,7 +366,7 @@ public class BankTest {
     void apr_calculation_provides_exact_amount() {
         bank.addAccount(QUICK_ID, cd);
         bank.passTime(10);
-        assertEquals(2004.0036019206723, bank.getAccounts().get(QUICK_ID).getMoney());
+        assertEquals(2000, bank.getAccounts().get(QUICK_ID).getMoney());
         assertEquals(10, bank.getAccounts().get(QUICK_ID).getMonth());
     }
 }
