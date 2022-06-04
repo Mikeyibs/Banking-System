@@ -1,19 +1,32 @@
 package banking;
 
+import java.util.List;
+
 public class PassTimeCommandValidator extends CommandValidator {
+    private String month;
 
     public PassTimeCommandValidator(Bank bank) {
         super(bank);
     }
 
-    public String getMonth(String command) {
-        return parseString(command, 1);
+    public String getMonth() {
+        return this.month;
+    }
+
+    public void setMonth(List<String> commands) {
+        this.month = commands.get(1);
     }
 
     @Override
     public boolean validate(String command) {
-        if (validatePassTimeLength(command) && validateMonthInput(getMonth(command))) {
-            return true;
+        List<String> commands = parseString(command);
+        if (validatePassTimeLength(command)) {
+            setMonth(commands);
+            if (validateMonthInput(getMonth())) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -36,7 +49,7 @@ public class PassTimeCommandValidator extends CommandValidator {
         } catch (NumberFormatException nfe) {
             return false;
         }
-        return validateMonthLength(Integer.valueOf(month));
+        return validateMonthLength(Integer.parseInt(month));
     }
 
     public boolean validatePassTimeLength(String command) {

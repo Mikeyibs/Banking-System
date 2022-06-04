@@ -159,46 +159,4 @@ public class AccountCreationCommandValidationTest {
         boolean create = commandValidator.validateAPR("%1.3");
         assertFalse(create);
     }
-
-    @Test
-    void invalid_create_cd_account_with_no_money_input() {
-        boolean create = commandValidator.validateCDAmount("");
-        assertFalse(create);
-    }
-
-    @Test
-    void invalid_create_cd_account_with_negative_amount_input() {
-        boolean create = commandValidator.validateCDAmount("-1000");
-        assertFalse(create);
-    }
-
-    @Test
-    void invalid_create_cd_account_with_letters_amount_input() {
-        boolean create = commandValidator.validateCDAmount("3xx3");
-        assertFalse(create);
-    }
-
-    @Test
-    void invalid_create_cd_account_with_special_characters_amount_input() {
-        boolean create = commandValidator.validateCDAmount("3#!3");
-        assertFalse(create);
-    }
-
-    @Test
-    void valid_create_cd_account_with_min_amount_input() {
-        boolean create = commandValidator.validateCDAmount("1000");
-        assertTrue(create);
-    }
-
-    @Test
-    void valid_create_cd_account_with_max_amount_input() {
-        boolean create = commandValidator.validateCDAmount("10000");
-        assertTrue(create);
-    }
-
-    @Test
-    void valid_create_cd_account_with_proper_amount_input() {
-        boolean create = commandValidator.validateCDAmount("6000");
-        assertTrue(create);
-    }
 }

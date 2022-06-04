@@ -1,7 +1,11 @@
 package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CommandProcessor {
     public Bank bank;
+    public String action;
     CreateCommandProcessor createProcessor;
     DepositCommandProcessor depositProcessor;
     WithdrawCommandProcessor withdrawProcessor;
@@ -12,8 +16,18 @@ public class CommandProcessor {
         this.bank = bank;
     }
 
+    public String getAction() {
+        return this.action;
+    }
+
+    public void setAction(List<String> parseString) {
+        this.action = parseString.get(0);
+    }
+
     public void processor(String command) {
-        switch (parseString(command, 0)) {
+        List<String> commands = parseString(command);
+        setAction(commands);
+        switch (getAction()) {
             case "create":
                 processCreate(command);
                 break;
@@ -64,27 +78,8 @@ public class CommandProcessor {
         transferProcessor.processor(command);
     }
 
-    public String parseString(String command, int limit) {
-
-        String[] arrStr = command.split(" ", 0);
-
-        return arrStr[limit];
-    }
-
-    public String getType(String command) {
-        return parseString(command, 1);
-    }
-
-    public String getID(String command) {
-        return parseString(command, 2);
-    }
-
-    public Double getAPR(String command) {
-        return Double.valueOf(parseString(command, 3));
-    }
-
-    public Double getAmount(String command) {
-        return Double.valueOf(parseString(command, 4));
+    public List<String> parseString(String command) {
+        return Arrays.asList(command.toLowerCase().trim().split(" "));
     }
 }
 

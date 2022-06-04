@@ -1,24 +1,40 @@
 package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
+import java.util.List;
+
 public class DepositCommandValidator extends CommandValidator {
+    private String amount;
+    private String id;
 
     public DepositCommandValidator(Bank bank) {
         super(bank);
     }
 
-    public String getAmount(String command) {
-        return parseString(command, 2);
+    public String getAmount() {
+        return this.amount;
     }
 
-    public String getID(String command) {
-        return parseString(command, 1);
+    public void setAmount(List<String> commands) {
+        this.amount = commands.get(2);
+    }
+
+    public String getID() {
+        return this.id;
+    }
+
+    public void setId(List<String> commands) {
+        this.id = commands.get(1);
     }
 
     @Override
     public boolean validate(String command) {
-        if (validateAccountExists(getID(command))) {
-            if (validateDepositAmount(getAmount(command), getID(command)) &&
-                    validateDepositLength(command) && validateID(getID(command))) {
+        List<String> commands = parseString(command);
+        setAmount(commands);
+        setId(commands);
+
+        if (validateAccountExists(getID())) {
+            if (validateDepositAmount(getAmount(), getID()) &&
+                    validateDepositLength(command) && validateID(getID())) {
                 return true;
             } else {
                 return false;

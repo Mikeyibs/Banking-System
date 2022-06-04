@@ -1,28 +1,36 @@
 package banking;
 
+import java.util.List;
+
 public class TransferCommandValidator extends CommandValidator {
+    private String fromId;
+    private String toId;
+    private String amount;
 
     public TransferCommandValidator(Bank bank) {
         super(bank);
     }
 
-    public String getFromId(String command) {
-        return parseString(command, 1);
+    public String getFromId() {
+        return this.fromId;
     }
 
-    public String getToId(String command) {
-        return parseString(command, 2);
+    public String getToId() {
+        return this.toId;
     }
 
-    public String getAmount(String command) {
-        return parseString(command, 3);
+    public String getAmount() {
+        return this.amount;
     }
 
     @Override
     public boolean validate(String command) {
-        if (validateAccountExists(getFromId(command)) && validateAccountExists(getToId(command))) {
-            if (validateTransferLength(command) && validateWithdrawAmount(getFromId(command), getAmount(command)) &&
-                    validateDepositAmount(getToId(command), getAmount(command))) {
+        List<String> commands = parseString(command);
+        setVariables(commands);
+
+        if (validateAccountExists(getFromId()) && validateAccountExists(getToId())) {
+            if (validateTransferLength(command) && validateWithdrawAmount(getFromId(), getAmount()) &&
+                    validateDepositAmount(getToId(), getAmount())) {
                 return true;
             } else {
                 return false;
@@ -30,6 +38,12 @@ public class TransferCommandValidator extends CommandValidator {
         } else {
             return false;
         }
+    }
+
+    public void setVariables(List<String> commands) {
+        this.toId = commands.get(2);
+        this.fromId = commands.get(1);
+        this.amount = commands.get(3);
     }
 
     public boolean validateWithdrawAmount(String quickId, String amount) {

@@ -36,16 +36,4 @@ public class DepositCommandProcessorTest {
         depositProcessor.deposit("33445566", 500);
         Assertions.assertEquals(500, bank.getAccounts().get("33445566").getMoney());
     }
-
-    @Test
-    void get_deposit_amount_returns_correct_val() {
-        Double test = depositProcessor.getDeposit("deposit 12345678 1500");
-        Assertions.assertEquals(1500, test);
-    }
-
-    @Test
-    void get_deposit_id_returns_correct_id() {
-        String test = depositProcessor.getDepositID("deposit 12345678 1500");
-        Assertions.assertEquals("12345678", test);
-    }
 }

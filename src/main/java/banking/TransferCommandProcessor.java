@@ -1,34 +1,43 @@
 package banking;
 
+import java.util.List;
+
 public class TransferCommandProcessor extends CommandProcessor {
+    private String fromId;
+    private String toId;
+    private double amount;
 
     public TransferCommandProcessor(Bank bank) {
         super(bank);
     }
 
-    public String getFromId(String command) {
-        return parseString(command, 1);
+    public String getFromId() {
+        return this.fromId;
     }
 
-    public String getToId(String command) {
-        return parseString(command, 2);
+    public String getToId() {
+        return this.toId;
     }
 
-    @Override
-    public Double getAmount(String command) {
-        return Double.valueOf(parseString(command, 3));
+    public double getAmount() {
+        return this.amount;
     }
 
     @Override
     public void processor(String command) {
-        Double amount = getAmount(command);
-        String fromId = getFromId(command);
-        String toId = getToId(command);
-        transfer(fromId, toId, amount);
+        List<String> commands = parseString(command);
+        setVariables(commands);
+        transfer(getFromId(), getToId(), getAmount());
     }
 
     public void transfer(String fromId, String toId, Double amount) {
         bank.withdraw(fromId, amount);
         bank.deposit(toId, amount);
+    }
+
+    public void setVariables(List<String> commands) {
+        this.toId = commands.get(2);
+        this.fromId = commands.get(1);
+        this.amount = Integer.parseInt(commands.get(3));
     }
 }

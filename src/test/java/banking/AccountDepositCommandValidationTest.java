@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountDepositCommandValidationTest {
     public static final String QUICK_ID = ("12345678");
@@ -258,29 +259,5 @@ public class AccountDepositCommandValidationTest {
 
         boolean deposit = commandValidator.validate(command);
         assertFalse(deposit);
-    }
-
-    @Test
-    void valid_get_ID_command() {
-        String command = ("deposit 12345678 750");
-
-        String deposit = commandValidator.getID(command);
-        assertEquals(QUICK_ID, deposit);
-    }
-
-    @Test
-    void invalid_get_ID_command() {
-        String command = ("12345678 750");
-
-        String deposit = commandValidator.getID(command);
-        assertEquals("750", deposit);
-    }
-
-    @Test
-    void valid_get_amount_command() {
-        String command = ("deposit 12345678 750");
-
-        String deposit = commandValidator.getAmount(command);
-        assertEquals("750", deposit);
     }
 }

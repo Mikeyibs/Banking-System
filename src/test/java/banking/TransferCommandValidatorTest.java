@@ -31,18 +31,6 @@ public class TransferCommandValidatorTest {
     }
 
     @Test
-    void valid_get_to_ID() {
-        String transfer = commandValidator.getToId(COMMAND);
-        Assertions.assertEquals("22334455", transfer);
-    }
-
-    @Test
-    void valid_get_from_ID() {
-        String transfer = commandValidator.getFromId(COMMAND);
-        Assertions.assertEquals("12345678", transfer);
-    }
-
-    @Test
     void valid_account_exists_in_bank() {
         processor.processor("create checking 12345678 1.0");
 

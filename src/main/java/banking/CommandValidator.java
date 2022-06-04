@@ -1,5 +1,8 @@
 package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CommandValidator {
     public Bank bank;
     public CreateCommandValidator createCommandValidator;
@@ -7,13 +10,24 @@ public class CommandValidator {
     public WithdrawCommandValidator withdrawCommandValidator;
     public PassTimeCommandValidator passTimeCommandValidator;
     public TransferCommandValidator transferCommandValidator;
+    public String action;
 
     public CommandValidator(Bank bank) {
         this.bank = bank;
     }
 
+    public String getAction() {
+        return this.action;
+    }
+
+    public void setAction(List<String> commands) {
+        this.action = commands.get(0);
+    }
+
     public boolean validate(String command) {
-        switch (parseString(command, 0)) {
+        List<String> commands = parseString(command);
+        setAction(commands);
+        switch (getAction()) {
             case "create":
                 return createValidator(command);
             case "deposit":
@@ -54,11 +68,8 @@ public class CommandValidator {
         return passTimeCommandValidator.validate(command);
     }
 
-    public String parseString(String command, int limit) {
-
-        String[] arrStr = command.split(" ", 0);
-
-        return arrStr[limit];
+    public List<String> parseString(String command) {
+        return Arrays.asList(command.toLowerCase().trim().split(" "));
     }
 
     public boolean validateID(String quickId) {
@@ -80,5 +91,4 @@ public class CommandValidator {
         }
         return true;
     }
-
 }

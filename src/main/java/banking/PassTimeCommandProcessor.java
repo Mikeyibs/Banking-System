@@ -1,19 +1,27 @@
 package banking;
 
+import java.util.List;
+
 public class PassTimeCommandProcessor extends CommandProcessor {
+    int month;
 
     public PassTimeCommandProcessor(Bank bank) {
         super(bank);
     }
 
-    public int getMonth(String command) {
-        return Integer.valueOf(parseString(command, 1));
+    public int getMonth() {
+        return this.month;
+    }
+
+    public void setMonth(List<String> commands) {
+        this.month = Integer.parseInt(commands.get(1));
     }
 
     @Override
     public void processor(String command) {
-        int month = getMonth(command);
-        passTime(month);
+        List<String> commands = parseString(command);
+        setMonth(commands);
+        passTime(getMonth());
     }
 
     public void passTime(int month) {

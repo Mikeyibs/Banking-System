@@ -102,35 +102,23 @@ public class CommandProcessorTest {
 
         commandProcessor.processor(VALID_DEPOSIT_CHECKING_CMD);
         commandProcessor.processor("withdraw 12345678 300");
+        Assertions.assertEquals(200, bank.getAccounts().get("12345678").getMoney());
     }
 
     @Test
-    void parse_string_returns_proper_string() {
-        String test = commandProcessor.parseString(VALID_CHECKING_CMD, 0);
-        Assertions.assertEquals(test, "create");
+    void process_withdraw_from_savings_command() {
+        commandProcessor.processor(VALID_SAVINGS_CMD);
+
+        commandProcessor.processor(VALID_DEPOSIT_SAVINGS_CMD);
+        commandProcessor.processor("withdraw 33225566 300");
+        Assertions.assertEquals(200, bank.getAccounts().get("33225566").getMoney());
     }
 
     @Test
-    void get_type_function_returns_proper_type() {
-        String test = commandProcessor.getType(VALID_CHECKING_CMD);
-        Assertions.assertEquals(test, "checking");
-    }
-
-    @Test
-    void get_id_function_returns_proper_id() {
-        String test = commandProcessor.getID(VALID_CHECKING_CMD);
-        Assertions.assertEquals(test, "12345678");
-    }
-
-    @Test
-    void get_apr_function_returns_proper_apr() {
-        Double test = commandProcessor.getAPR(VALID_CHECKING_CMD);
-        Assertions.assertEquals(test, 0.06);
-    }
-
-    @Test
-    void get_amount_function_returns_proper_amount() {
-        Double test = commandProcessor.getAmount(VALID_CD_CMD);
-        Assertions.assertEquals(test, 2000);
+    void process_withdraw_from_cd_command() {
+        commandProcessor.processor(VALID_CD_CMD);
+        commandProcessor.processor("pass 12");
+        commandProcessor.processor("withdraw 87654321 2000");
+        Assertions.assertEquals(0, bank.getAccounts().get("87654321").getMoney());
     }
 }

@@ -37,12 +37,4 @@ public class CommandValidationTest {
         boolean actual = commandValidator.validate("deposit 12345678 500");
         Assertions.assertTrue(actual);
     }
-
-    @Test
-    void validate_parse_string_method() {
-        String actual = "create checking 12345678 0.06";
-        String test = commandValidator.parseString(actual, 2);
-        Assertions.assertEquals("12345678", test);
-    }
-
 }
