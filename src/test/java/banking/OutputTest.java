@@ -44,16 +44,17 @@ public class OutputTest {
         processor.processor("create checking 12345678 1.0");
         processor.processor("deposit 12345678 150");
         processor.processor("create savings 22334455 1.0");
-        processor.processor("deposit 22334455 150");
+        processor.processor("deposit 22334455 100");
         storage.storeValidCommands("create checking 12345678 1.0");
         storage.storeValidCommands("deposit 12345678 150");
         storage.storeValidCommands("create savings 22334455 1.0");
         storage.storeValidCommands("deposit 22334455 150");
 
         List<String> finalOutput = output.Output();
+        List<String> test = Collections.emptyList();
         Assertions.assertEquals("Checking 12345678 150.00 1.00", finalOutput.get(0));
         Assertions.assertEquals("deposit 12345678 150", finalOutput.get(1));
-        Assertions.assertEquals("Savings 22334455 150.00 1.00", finalOutput.get(2));
+        Assertions.assertEquals("Savings 22334455 100.00 1.00", finalOutput.get(2));
         Assertions.assertEquals("deposit 22334455 150", finalOutput.get(3));
     }
 
@@ -106,7 +107,8 @@ public class OutputTest {
         List<String> outputs = Collections.emptyList();
         Assertions.assertEquals("Savings 12345678 1000.50 0.60", finalOutput.get(0));
         Assertions.assertEquals("Deposit 12345678 700", finalOutput.get(1));
-        Assertions.assertEquals("Cd 23456789 2000.00 1.20", finalOutput.get(2));
-        Assertions.assertEquals("Deposit 12345678 5000", finalOutput.get(3));
+        Assertions.assertEquals("Transfer 98765432 12345678 300", finalOutput.get(2));
+        Assertions.assertEquals("Cd 23456789 2000.00 1.20", finalOutput.get(3));
+        Assertions.assertEquals("Deposit 12345678 5000", finalOutput.get(4));
     }
 }

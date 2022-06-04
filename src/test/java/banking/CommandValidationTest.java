@@ -216,16 +216,4 @@ public class CommandValidationTest {
         Assertions.assertTrue(test);
     }
 
-    @Test
-    void invalid_transfer_twice_between_savings_account_and_checking_account() {
-        bank.addAccount(QUICK_ID, checking);
-        bank.addAccount("22334455", savings);
-        bank.deposit("22334455", 400);
-        bank.deposit(QUICK_ID, 400);
-
-        boolean actual = commandValidator.validate("transfer 22334455 12345678 200");
-        Assertions.assertTrue(actual);
-        boolean test = commandValidator.validate("transfer 22334455 12345678 100");
-        Assertions.assertFalse(test);
-    }
 }

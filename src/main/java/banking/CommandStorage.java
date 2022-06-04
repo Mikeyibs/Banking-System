@@ -28,8 +28,4 @@ public class CommandStorage {
     public List<String> getInvalidCommands() {
         return this.invalidCommands;
     }
-
-    public void remove(String id) {
-        getValidCommands().removeIf(s -> (s.contains(id)));
-    }
 }

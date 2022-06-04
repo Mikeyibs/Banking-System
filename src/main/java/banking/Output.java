@@ -56,47 +56,36 @@ public class Output {
 
     public List<String> Output() {
         outputList = new ArrayList<>();
-        idList = new ArrayList<>();
-        getValidCommands().forEach(cmd ->
-        {
-            List<String> parsedStrings = parseString(cmd);
+        List<String> tempCommands = getValidCommands();
+
+        for (int i = 0; i < tempCommands.size(); i++) {
+            String command = tempCommands.get(i);
+            List<String> parsedStrings = parseString(command);
             setAction(parsedStrings);
-            addCommandsToOutputList(parsedStrings, outputList, cmd);
-            if (parseID(parsedStrings) != null) {
-                idList.add(parseID(parsedStrings));
-            }
-        });
-        determineIfNullAccount(idList, outputList);
+            parseID(parsedStrings);
+        }
+
+        List<String> validCommands = getValidCommands();
+        for (int j = 0; j < validCommands.size(); j++) {
+            String cmd = validCommands.get(j);
+            List<String> parseStrings = parseString(cmd);
+            setAction(parseStrings);
+            addCommandsToOutputList(parseStrings, outputList, cmd);
+        }
+
         if (!commands.getInvalidCommands().isEmpty()) {
             outputList.addAll(getInvalidCommands());
         }
         return outputList;
     }
 
-    private void determineIfNullAccount(List<String> idList, List<String> outputList) {
-        for (int i = 0; i < idList.size(); i++) {
-            if (bank.accountExistsByQuickID(idList.get(i))) {
-                idList.remove(idList.get(i));
-            }
-        }
-
-        removeCommands(idList, outputList);
-    }
-
-    private void removeCommands(List<String> ids, List<String> outputs) {
-        ids.forEach(id ->
-        {
-            outputs.removeIf(s -> (s.contains(id) && !s.toLowerCase().contains("transfer")));
-        });
-    }
-
-    private String parseID(List<String> parsedStrings) {
+    private void parseID(List<String> parsedStrings) {
         String tempID;
         if (getAction().equals("create")) {
             tempID = parsedStrings.get(2);
-            return tempID;
-        } else {
-            return null;
+            if (!bank.accountExistsByQuickID(tempID)) {
+                getValidCommands().removeIf(s -> (s.contains(tempID) && !s.toLowerCase().contains("transfer")));
+            }
         }
     }
 
