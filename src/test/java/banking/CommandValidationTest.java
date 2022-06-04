@@ -168,19 +168,64 @@ public class CommandValidationTest {
     @Test
     void valid_withdraw_from_cd_account_command() {
         bank.addAccount(QUICK_ID, cd);
-        bank.deposit(QUICK_ID, 200);
-        bank.passTime(12);
+        bank.passTime(13);
 
-        boolean actual = commandValidator.validate("withdraw 12345678 100");
+        boolean actual = commandValidator.validate("withdraw 12345678 2000");
         Assertions.assertTrue(actual);
     }
 
     @Test
     void invalid_withdraw_from_cd_account_command() {
         bank.addAccount(QUICK_ID, cd);
-        bank.deposit(QUICK_ID, 200);
 
         boolean actual = commandValidator.validate("withdraw 12345678 100");
         Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void valid_transfer_between_checking_account_and_savings_account() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount("22334455", savings);
+        bank.deposit(QUICK_ID, 400);
+
+        boolean actual = commandValidator.validate("transfer 12345678 22334455 200");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void valid_transfer_between_savings_account_and_checking_account() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount("22334455", savings);
+        bank.deposit("22334455", 400);
+
+        boolean actual = commandValidator.validate("transfer 22334455 12345678 200");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void valid_transfer_twice_between_savings_account_and_checking_account() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount("22334455", savings);
+        bank.deposit("22334455", 400);
+        bank.deposit(QUICK_ID, 400);
+
+        boolean actual = commandValidator.validate("transfer 22334455 12345678 200");
+        Assertions.assertTrue(actual);
+        bank.passTime(1);
+        boolean test = commandValidator.validate("transfer 22334455 12345678 100");
+        Assertions.assertTrue(test);
+    }
+
+    @Test
+    void invalid_transfer_twice_between_savings_account_and_checking_account() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount("22334455", savings);
+        bank.deposit("22334455", 400);
+        bank.deposit(QUICK_ID, 400);
+
+        boolean actual = commandValidator.validate("transfer 22334455 12345678 200");
+        Assertions.assertTrue(actual);
+        boolean test = commandValidator.validate("transfer 22334455 12345678 100");
+        Assertions.assertFalse(test);
     }
 }

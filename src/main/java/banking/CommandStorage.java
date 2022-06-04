@@ -29,9 +29,7 @@ public class CommandStorage {
         return this.invalidCommands;
     }
 
-    public void remove(List<String> removedCommands) {
-        for (int i = 0; i < removedCommands.size(); i++) {
-            getValidCommands().remove(removedCommands.get(i));
-        }
+    public void remove(String id) {
+        getValidCommands().removeIf(s -> (s.contains(id)));
     }
 }

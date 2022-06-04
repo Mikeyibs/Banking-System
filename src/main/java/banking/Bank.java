@@ -64,20 +64,6 @@ public class Bank {
             }
         });
 
-        removedAccounts.forEach(id -> removeCommands(id));
         removedAccounts.forEach(id -> removeAccount(id));
-    }
-
-    public void removeCommands(String quickId) {
-        List<String> removedCommands = new ArrayList<>();
-
-        getCommands().getValidCommands().forEach(cmd ->
-        {
-            if (cmd.contains(quickId) && !cmd.toLowerCase().contains("transfer")) {
-                removedCommands.add(cmd);
-            }
-        });
-
-        removedCommands.forEach(cmd -> getCommands().getValidCommands().remove(cmd));
     }
 }

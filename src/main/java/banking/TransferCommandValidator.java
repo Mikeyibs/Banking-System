@@ -29,7 +29,8 @@ public class TransferCommandValidator extends CommandValidator {
         try {
             setVariables(commands);
             return (validateAccountExists(getFromId()) && validateAccountExists(getToId()) &&
-                    validateTransferLength(command) && validateWithdrawAmount(getFromId(), getAmount()) &&
+                    validateTransferLength(command) &&
+                    validateWithdrawAmount(getFromId(), getAmount()) &&
                     validateDepositAmount(getToId(), getAmount()));
         } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
@@ -43,8 +44,16 @@ public class TransferCommandValidator extends CommandValidator {
     }
 
     public boolean validateWithdrawAmount(String quickId, String amount) {
-        if (isNum(amount)) {
+        if (isNum(amount) && accountCanWithdrawThisMonth(quickId)) {
             return bank.getAccounts().get(quickId).validateWithdrawAmount(amount);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean accountCanWithdrawThisMonth(String quickId) {
+        if (bank.getAccounts().get(quickId).getWithdrawRestriction()) {
+            return true;
         } else {
             return false;
         }

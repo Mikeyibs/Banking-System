@@ -10,6 +10,7 @@ public class Output {
     private final Bank bank;
     private final CommandStorage commands;
     public List<String> outputList;
+    public List<String> idList;
     private String id;
     private double money;
     private double apr;
@@ -41,62 +42,100 @@ public class Output {
         this.action = parsedStrings.get(0);
     }
 
+    public List<String> getValidCommands() {
+        return commands.getValidCommands();
+    }
+
+    public List<String> getInvalidCommands() {
+        return commands.getInvalidCommands();
+    }
+
     public String getType() {
         return this.type;
     }
 
-    public void setType(List<String> parsedStrings) {
-        this.type = parsedStrings.get(1);
-    }
-
-    public void setID(List<String> parsedStrings) {
-        this.id = parsedStrings.get(2);
-    }
-
-    public void setMoney() {
-        this.money = bank.getAccounts().get(id).getMoney();
-    }
-
-    public void setApr() {
-        this.apr = bank.getAccounts().get(id).getApr();
-    }
-
     public List<String> Output() {
         outputList = new ArrayList<>();
-        for (int i = 0; i < commands.getValidCommands().size(); i++) {
-            String command = commands.getValidCommands().get(i);
-            List<String> parsedStrings = parseString(command);
+        idList = new ArrayList<>();
+        getValidCommands().forEach(cmd ->
+        {
+            List<String> parsedStrings = parseString(cmd);
             setAction(parsedStrings);
-            addCommandsToOutputList(parsedStrings, outputList, command);
-        }
-        if (!commands.getInvalidCommands().isEmpty()) {
-            for (int j = 0; j < commands.invalidCommands.size(); j++) {
-                outputList.add(commands.invalidCommands.get(j));
+            addCommandsToOutputList(parsedStrings, outputList, cmd);
+            if (parseID(parsedStrings) != null) {
+                idList.add(parseID(parsedStrings));
             }
+        });
+        determineIfNullAccount(idList, outputList);
+        if (!commands.getInvalidCommands().isEmpty()) {
+            outputList.addAll(getInvalidCommands());
         }
         return outputList;
     }
 
-    private void addCommandsToOutputList(List<String> parsedStrings, List<String> outputList, String command) {
-        if (getAction() == "create") {
-            addAccountInformation(command, parsedStrings, outputList);
-        } else if (getAction() == "deposit") {
-            outputList.add(command);
-        } else if (getAction() == "withdraw") {
-            outputList.add(command);
-        } else if (getAction() == "transfer") {
-            outputList.add(command);
+    private void determineIfNullAccount(List<String> idList, List<String> outputList) {
+        for (int i = 0; i < idList.size(); i++) {
+            if (bank.accountExistsByQuickID(idList.get(i))) {
+                idList.remove(idList.get(i));
+            }
+        }
+
+        removeCommands(idList, outputList);
+    }
+
+    private void removeCommands(List<String> ids, List<String> outputs) {
+        ids.forEach(id ->
+        {
+            outputs.removeIf(s -> (s.contains(id) && !s.toLowerCase().contains("transfer")));
+        });
+    }
+
+    private String parseID(List<String> parsedStrings) {
+        String tempID;
+        if (getAction().equals("create")) {
+            tempID = parsedStrings.get(2);
+            return tempID;
+        } else {
+            return null;
         }
     }
 
-    private void addAccountInformation(String command, List<String> parsedStrings, List<String> outputList) {
-        setID(parsedStrings);
-        setType(parsedStrings);
-        setApr();
-        setMoney();
+    private void addCommandsToOutputList(List<String> parsedStrings, List<String> outputList, String command) {
+        switch (getAction()) {
+            case "create":
+                addAccountInformation(parsedStrings, outputList);
+                break;
+            case "deposit":
+                outputList.add(command);
+                break;
+            case "withdraw":
+                outputList.add(command);
+                break;
+            case "transfer":
+                outputList.add(command);
+                break;
+            case "pass":
+                break;
+            default:
+                break;
+        }
+    }
 
-        String accountInfomation = String.format("%s %s %s %s", getType(), getId(), getMoney(), getApr());
-        outputList.add(accountInfomation);
+    public void setParameters(List<String> parsedStrings) {
+        this.type = parsedStrings.get(1);
+        this.id = parsedStrings.get(2);
+        this.apr = bank.getAccounts().get(getId()).getApr();
+        this.money = bank.getAccounts().get(getId()).getMoney();
+    }
+
+    private void addAccountInformation(List<String> parsedStrings, List<String> outputList) {
+        try {
+            setParameters(parsedStrings);
+            String accountInfomation = String.format("%s %s %s %s", capitalize(getType()), getId(), getMoney(), getApr());
+            outputList.add(accountInfomation);
+        } catch (NullPointerException npe) {
+            String err = "Error";
+        }
     }
 
     private String formatNumber(double value) {
@@ -105,10 +144,12 @@ public class Output {
         return decimalFormat.format(value);
     }
 
-    public String caseConversion(String command) {
-        return command.toLowerCase();
+    public String capitalize(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
-
 
     public List<String> parseString(String i) {
         return Arrays.asList(i.toLowerCase().trim().split(" "));
