@@ -20,7 +20,7 @@ public abstract class Account {
     }
 
     public double getMoney() {
-        return money;
+        return this.money;
     }
 
     public double getCalcAPR() {
@@ -51,11 +51,6 @@ public abstract class Account {
 
     protected void aprCalculation() {
         double calc = getCalcAPR() * getMoney();
-        this.money += calc;
-    }
-
-    protected void cdAprCalculation() {
-        double calc = (getCalcAPR() * getMoney()) * 4;
         this.money += calc;
     }
 
