@@ -326,4 +326,47 @@ public class BankTest {
         Account actual = bank.getAccounts().get(QUICK_ID);
         assertTrue(actual.getMoney() == 0);
     }
+
+    @Test
+    void withdraw_under_balance_savings() {
+        bank.addAccount(QUICK_ID, savings);
+
+        bank.deposit(QUICK_ID, 1000);
+        bank.withdraw(QUICK_ID, 100);
+
+        Account actual = bank.getAccounts().get(QUICK_ID);
+        assertTrue(actual.getMoney() == 900);
+    }
+
+    @Test
+    void pass_time_method_successfully_returns_the_correct_months() {
+        bank.addAccount(QUICK_ID, savings);
+        bank.deposit(QUICK_ID, 1000);
+        bank.passTime(2);
+        assertEquals(2, bank.getAccounts().get(QUICK_ID).getMonth());
+    }
+
+    @Test
+    void pass_time_method_successfully_withdraws_money() {
+        bank.addAccount(QUICK_ID, savings);
+        bank.deposit(QUICK_ID, 90);
+        bank.passTime(2);
+        assertEquals(40.0052501625, bank.getAccounts().get(QUICK_ID).getMoney());
+    }
+
+    @Test
+    void pass_exactly_100_dollar_account_to_pass_time_function() {
+        bank.addAccount(QUICK_ID, savings);
+        bank.deposit(QUICK_ID, 100);
+        bank.passTime(2);
+        assertEquals(100.01000024999999, bank.getAccounts().get(QUICK_ID).getMoney());
+    }
+
+    @Test
+    void apr_calculation_provides_exact_amount() {
+        bank.addAccount(QUICK_ID, cd);
+        bank.passTime(10);
+        assertEquals(2004.0036019206723, bank.getAccounts().get(QUICK_ID).getMoney());
+        assertEquals(10, bank.getAccounts().get(QUICK_ID).getMonth());
+    }
 }

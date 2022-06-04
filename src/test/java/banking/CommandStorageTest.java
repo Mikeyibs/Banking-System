@@ -75,4 +75,13 @@ public class CommandStorageTest {
 
         Assertions.assertEquals(test, commandStorage.getValidCommands());
     }
+
+    @Test
+    void bank_successfully_returns_commands() {
+        commandStorage.storeValidCommands("create checking 12345678 1.0");
+        List<String> cmds = bank.getCommands().getValidCommands();
+        List<String> test = Arrays.asList("create checking 12345678 1.0");
+        Assertions.assertEquals(test, cmds);
+
+    }
 }

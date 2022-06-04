@@ -323,4 +323,24 @@ public class TransferCommandValidatorTest {
         boolean transfer = commandValidator.validate("transfer 12345678 22334455 400");
         Assertions.assertFalse(transfer);
     }
+
+    @Test
+    void invalid_transfer_command_with_too_many_commands() {
+        processor.processor("create checking 12345678 1.0");
+        processor.processor("deposit 12345678 200");
+        processor.processor("create checking 22445566 1.0");
+
+        boolean transfer = commandValidator.validate("transfer 12345678 22445566 200 300");
+        Assertions.assertFalse(transfer);
+    }
+
+    @Test
+    void account_can_withdraw_this_month_method_successfully_returns_false() {
+        processor.processor("create savings 12345678 1.0");
+        processor.processor("deposit 12345678 100");
+        processor.processor("withdraw 12345678 50");
+
+        boolean transfer = commandValidator.accountCanWithdrawThisMonth("12345678");
+        Assertions.assertFalse(transfer);
+    }
 }

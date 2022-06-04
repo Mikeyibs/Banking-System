@@ -261,4 +261,12 @@ public class AccountDepositCommandValidationTest {
         boolean deposit = commandValidator.validate(command);
         assertFalse(deposit);
     }
+
+    @Test
+    void invalid_deposit_amount_too_many_commands() {
+        bank.addAccount(QUICK_ID, checking);
+
+        boolean deposit = commandValidator.validate("deposit 12345678 300 200");
+        assertFalse(deposit);
+    }
 }

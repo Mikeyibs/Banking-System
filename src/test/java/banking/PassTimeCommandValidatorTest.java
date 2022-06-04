@@ -16,6 +16,27 @@ public class PassTimeCommandValidatorTest {
     }
 
     @Test
+    void validate_month_input_properly_validates_the_month_as_int() {
+        String test = "2";
+        boolean pass = commandValidator.validateMonthInput(test);
+        Assertions.assertTrue(pass);
+    }
+
+    @Test
+    void validate_month_input_properly_validates_null_month_input() {
+        String test = "";
+        boolean pass = commandValidator.validateMonthInput(test);
+        Assertions.assertFalse(pass);
+    }
+
+    @Test
+    void validate_month_input_properly_validates_month_with_decimals() {
+        String test = "2.0";
+        boolean pass = commandValidator.validateMonthInput(test);
+        Assertions.assertFalse(pass);
+    }
+
+    @Test
     void valid_pass_time_command_length() {
         String command = ("pass 5");
         boolean pass = commandValidator.validatePassTimeLength(command);

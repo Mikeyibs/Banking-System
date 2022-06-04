@@ -40,6 +40,35 @@ public class OutputTest {
     }
 
     @Test
+    void value_formatted_to_the_correct_decimal_place() {
+        double value = 20;
+        String test = output.formatNumber(value);
+        Assertions.assertEquals("20.00", test);
+    }
+
+    @Test
+    void capitalize_first_letter_of_create_accurately() {
+        String action = "create";
+        String test = output.capitalize(action);
+        Assertions.assertEquals("Create", test);
+    }
+
+    @Test
+    void capitalize_first_letter_of_cd_accurately() {
+        String action = "cd";
+        String test = output.capitalize(action);
+        Assertions.assertEquals("Cd", test);
+    }
+
+    @Test
+    void capitalize_first_letter_of_savings_accurately() {
+        String action = "savings";
+        String test = output.capitalize(action);
+        Assertions.assertEquals("Savings", test);
+    }
+
+
+    @Test
     void output_all_valid_commands_succesfully() {
         processor.processor("create checking 12345678 1.0");
         processor.processor("deposit 12345678 150");

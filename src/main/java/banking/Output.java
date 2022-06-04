@@ -127,7 +127,7 @@ public class Output {
         }
     }
 
-    private String formatNumber(double value) {
+    public String formatNumber(double value) {
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         decimalFormat.setRoundingMode(RoundingMode.FLOOR);
         return decimalFormat.format(value);

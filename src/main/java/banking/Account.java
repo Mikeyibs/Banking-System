@@ -51,7 +51,12 @@ public abstract class Account {
 
     protected void aprCalculation() {
         double calc = getCalcAPR() * getMoney();
-        this.money = this.money + calc;
+        this.money += calc;
+    }
+
+    protected void cdAprCalculation() {
+        double calc = (getCalcAPR() * getMoney()) * 4;
+        this.money += calc;
     }
 
     protected void withdrawCalculation(double amount) {

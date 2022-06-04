@@ -1,7 +1,11 @@
 package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -158,6 +162,47 @@ public class AccountCreationCommandValidationTest {
     @Test
     void invalid_apr_with_special_char_as_input() {
         boolean create = commandValidator.validateAPR("%1.3");
+        assertFalse(create);
+    }
+
+    @Test
+    void method_successfully_validates_id_is_in_bank() {
+        bank.addAccount("12345678", checking);
+        boolean create = commandValidator.validateIDExistsInBank("12345678");
+        assertFalse(create);
+    }
+
+    @Test
+    void method_successfully_validates_id_not_in_bank() {
+        boolean create = commandValidator.validateIDExistsInBank("12345678");
+        assertTrue(create);
+    }
+
+    @Test
+    void set_variables_method_accurately_sets_vars() {
+        List<String> commands = Arrays.asList("create", "checking", "12345678", "1.0");
+        commandValidator.setVariables(commands);
+        String id = commandValidator.getID();
+        String type = commandValidator.getType();
+        String apr = commandValidator.getAPR();
+        Assertions.assertEquals("12345678", id);
+        Assertions.assertEquals("checking", type);
+        Assertions.assertEquals("1.0", apr);
+    }
+
+    @Test
+    void count_commands_successfully_counts_all_commands() {
+        List<String> commands = Arrays.asList("create", "checking", "12345678", "1.0");
+        commandValidator.setType(commands);
+        boolean create = commandValidator.countCommands(commands);
+        Assertions.assertTrue(create);
+    }
+
+    @Test
+    void large_create_checking_command_passed_to_counts_all_commands() {
+        List<String> commands = Arrays.asList("create", "checking", "12345678", "1.0", "2000");
+        commandValidator.setType(commands);
+        boolean create = commandValidator.countCommands(commands);
         assertFalse(create);
     }
 }

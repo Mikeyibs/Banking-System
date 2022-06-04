@@ -24,4 +24,18 @@ public class CDTest {
     void account_has_money() {
         assertEquals(MONEY, cd.getMoney());
     }
+
+    @Test
+    void validate_withdraw_returns_correct_value_if_given_correct_amount() {
+        String money = "2000";
+        Boolean test = cd.validateWithdrawAmount(money);
+        assertEquals(true, test);
+    }
+
+    @Test
+    void validate_withdraw_returns_correct_value_if_given_incorrect_amount() {
+        String money = "900";
+        Boolean test = cd.validateWithdrawAmount(money);
+        assertEquals(false, test);
+    }
 }

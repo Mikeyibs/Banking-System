@@ -216,4 +216,71 @@ public class CommandValidationTest {
         Assertions.assertTrue(test);
     }
 
+    @Test
+    void invalid_transfer_from_savings_to_cd() {
+        bank.addAccount("12345678", savings);
+        bank.deposit("12345678", 400);
+        bank.addAccount("22334455", cd);
+
+        boolean actual = commandValidator.validate("transfer 12345678 22334455 200");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_transfer_using_special_characters() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount("22334455", savings);
+        bank.deposit("22334455", 400);
+        bank.deposit(QUICK_ID, 400);
+
+        boolean actual = commandValidator.validate("transfer 12345678 2!334455 200");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_transfer_with_a_negative_amount() {
+        bank.addAccount(QUICK_ID, checking);
+        bank.addAccount("22334455", savings);
+        bank.deposit("22334455", 400);
+        bank.deposit(QUICK_ID, 400);
+
+        boolean actual = commandValidator.validate("transfer 12345678 22334455 -100");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void valid_pass_time_command_1_month() {
+        boolean actual = commandValidator.validate("pass 1");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void valid_pass_time_command_max() {
+        boolean actual = commandValidator.validate("pass 60");
+        Assertions.assertTrue(actual);
+    }
+
+    @Test
+    void invalid_pass_time_command_above_max() {
+        boolean actual = commandValidator.validate("pass 70");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_pass_time_command_negative_number() {
+        boolean actual = commandValidator.validate("pass -5");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_pass_time_with_special_characters() {
+        boolean actual = commandValidator.validate("pass !");
+        Assertions.assertFalse(actual);
+    }
+
+    @Test
+    void invalid_pass_time_command_decimal() {
+        boolean actual = commandValidator.validate("pass 1.0");
+        Assertions.assertFalse(actual);
+    }
 }

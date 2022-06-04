@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PassTimeCommandProcessorTest {
     public static final String QUICK_ID = "12345678";
     Bank bank;
@@ -16,6 +19,14 @@ public class PassTimeCommandProcessorTest {
         bank = new Bank(commands);
         processor = new CommandProcessor(bank);
         passTime = new PassTimeCommandProcessor(bank);
+    }
+
+    @Test
+    void get_month_method_provides_the_correct_value() {
+        List<String> cmds = Arrays.asList("pass", "2");
+        passTime.setMonth(cmds);
+        int test = passTime.getMonth();
+        Assertions.assertEquals(2, test);
     }
 
     @Test

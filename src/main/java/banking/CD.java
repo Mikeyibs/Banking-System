@@ -21,15 +21,9 @@ public class CD extends Account {
     }
 
     @Override
-    public void aprCalculation() {
-        double calc = (getCalcAPR() * getMoney()) * 4;
-        this.money = this.money + calc;
-    }
-
-    @Override
     public void passTime() {
         this.month += 1;
-        aprCalculation();
+        cdAprCalculation();
         this.withdrawRestriction = getMonth() > 11;
     }
 }
