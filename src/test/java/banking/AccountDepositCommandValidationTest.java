@@ -17,10 +17,11 @@ public class AccountDepositCommandValidationTest {
     Account savings;
     Account cd;
     DepositCommandValidator commandValidator;
+    CommandStorage commands;
 
     @BeforeEach
     void set_up() {
-        bank = new Bank();
+        bank = new Bank(commands);
         checking = new Checking(APR, 0);
         savings = new Savings(APR, 0);
         cd = new CD(APR, MONEY);

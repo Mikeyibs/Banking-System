@@ -43,16 +43,12 @@ public class CreateCommandValidator extends CommandValidator {
     @Override
     public boolean validate(String command) {
         List<String> commands = parseString(command);
-        setType(commands);
-        if (validateType(getType())) {
+        try {
+            setType(commands);
             setVariables(commands);
-            if (validateIDExistsInBank(getID()) && validateAPR(getAPR()) && validateLength(commands)
-                    && validateAmount(getAmount()) && countCommands(commands)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+            return (validateType(getType()) && validateIDExistsInBank(getID()) && validateAPR(getAPR()) && validateLength(commands)
+                    && validateAmount(getAmount()) && countCommands(commands));
+        } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
         }
     }

@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 public class PassTimeCommandValidatorTest {
     Bank bank;
     PassTimeCommandValidator commandValidator;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         commandValidator = new PassTimeCommandValidator(bank);
     }
 

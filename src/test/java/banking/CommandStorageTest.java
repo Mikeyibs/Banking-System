@@ -10,10 +10,14 @@ import java.util.List;
 
 public class CommandStorageTest {
     CommandStorage commandStorage;
+    Bank bank;
+    Account checking;
 
     @BeforeEach
     void setUp() {
         commandStorage = new CommandStorage();
+        bank = new Bank(commandStorage);
+        checking = new Checking(0.06, 0);
     }
 
     @Test
@@ -73,36 +77,11 @@ public class CommandStorageTest {
     }
 
     @Test
-    void valid_removal_of_commands() {
-        String command = "create checking 12345678  0.06";
-        commandStorage.storeValidCommands(command);
-        commandStorage.removeCommands("12345678");
+    void valid_removal_of_accounts_because_of_no_balance() {
+        commandStorage.storeValidCommands("create checking 12345678 1.0");
+        bank.addAccount("12345678", checking);
+        bank.passTime(1);
         List<String> test = Collections.emptyList();
-
-        Assertions.assertEquals(test, commandStorage.getValidCommands());
-    }
-
-    @Test
-    void valid_removal_of_correct_commands() {
-        String command = "transfer 12345678 22334455 400";
-        String command2 = "create checking 12345678 500";
-        commandStorage.storeValidCommands(command);
-        commandStorage.storeValidCommands(command2);
-        commandStorage.removeCommands("12345678");
-        List<String> test = Arrays.asList(command);
-
-        Assertions.assertEquals(test, commandStorage.getValidCommands());
-    }
-
-    @Test
-    void valid_removal_of_correct_commands_with_capital_t() {
-        String command = "Transfer 12345678 22334455 400";
-        String command2 = "create checking 12345678 500";
-        commandStorage.storeValidCommands(command);
-        commandStorage.storeValidCommands(command2);
-        commandStorage.removeCommands("12345678");
-        List<String> test = Arrays.asList(command);
-
         Assertions.assertEquals(test, commandStorage.getValidCommands());
     }
 }

@@ -39,7 +39,12 @@ public abstract class Account {
         this.money += money;
     }
 
-    protected void passTime() {
+    public void withdraw(double amount) {
+        withdrawCalculation(amount);
+        this.withdrawRestriction = false;
+    }
+
+    public void passTime() {
         this.month += 1;
         aprCalculation();
     }
@@ -55,11 +60,6 @@ public abstract class Account {
         } else {
             money -= amount;
         }
-    }
-
-    public void withdraw(double amount) {
-        withdrawCalculation(amount);
-        this.withdrawRestriction = false;
     }
 
     public abstract boolean validateDepositAmount(String amount);

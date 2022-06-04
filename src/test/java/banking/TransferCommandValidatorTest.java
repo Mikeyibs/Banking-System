@@ -17,10 +17,11 @@ public class TransferCommandValidatorTest {
     TransferCommandValidator commandValidator;
     CommandValidator validator;
     CommandProcessor processor;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         checking = new Checking(APR, 0);
         savings = new Savings(APR, 0);
         cd = new CD(APR, MONEY);

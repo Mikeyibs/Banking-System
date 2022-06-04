@@ -26,16 +26,12 @@ public class TransferCommandValidator extends CommandValidator {
     @Override
     public boolean validate(String command) {
         List<String> commands = parseString(command);
-        setVariables(commands);
-
-        if (validateAccountExists(getFromId()) && validateAccountExists(getToId())) {
-            if (validateTransferLength(command) && validateWithdrawAmount(getFromId(), getAmount()) &&
-                    validateDepositAmount(getToId(), getAmount())) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        try {
+            setVariables(commands);
+            return (validateAccountExists(getFromId()) && validateAccountExists(getToId()) &&
+                    validateTransferLength(command) && validateWithdrawAmount(getFromId(), getAmount()) &&
+                    validateDepositAmount(getToId(), getAmount()));
+        } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
         }
     }

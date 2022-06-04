@@ -8,10 +8,11 @@ public class TransferCommandProcessorTest {
     Bank bank;
     CommandProcessor processor;
     TransferCommandProcessor transferProcessor;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         processor = new CommandProcessor(bank);
         transferProcessor = new TransferCommandProcessor(bank);
     }

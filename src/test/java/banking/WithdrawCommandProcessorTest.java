@@ -9,10 +9,11 @@ public class WithdrawCommandProcessorTest {
     CreateCommandProcessor create;
     DepositCommandProcessor deposit;
     Bank bank;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         create = new CreateCommandProcessor(bank);
         deposit = new DepositCommandProcessor(bank);
         withdraw = new WithdrawCommandProcessor(bank);

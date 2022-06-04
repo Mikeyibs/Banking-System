@@ -19,7 +19,7 @@ public class OutputTest {
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(storage);
         storage = new CommandStorage();
         output = new Output(bank, storage);
         checking = new Checking(APR, 0);

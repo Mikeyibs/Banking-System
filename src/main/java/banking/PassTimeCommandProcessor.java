@@ -21,10 +21,6 @@ public class PassTimeCommandProcessor extends CommandProcessor {
     public void processor(String command) {
         List<String> commands = parseString(command);
         setMonth(commands);
-        passTime(getMonth());
-    }
-
-    public void passTime(int month) {
         bank.passTime(month);
     }
 }

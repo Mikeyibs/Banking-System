@@ -8,10 +8,11 @@ public class DepositCommandProcessorTest {
     DepositCommandProcessor depositProcessor;
     CreateCommandProcessor createProcessor;
     Bank bank;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         depositProcessor = new DepositCommandProcessor(bank);
         createProcessor = new CreateCommandProcessor(bank);
     }

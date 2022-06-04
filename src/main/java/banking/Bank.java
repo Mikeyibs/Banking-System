@@ -7,14 +7,19 @@ import java.util.Map;
 
 public class Bank {
     private final Map<String, Account> accounts;
-    CommandStorage commands;
+    private final CommandStorage commands;
 
-    Bank() {
+    Bank(CommandStorage commands) {
         accounts = new HashMap<>();
+        this.commands = commands;
     }
 
     public Map<String, Account> getAccounts() {
         return accounts;
+    }
+
+    public CommandStorage getCommands() {
+        return this.commands;
     }
 
     public void addAccount(String quickId, Account account) {
@@ -44,26 +49,35 @@ public class Bank {
     public void passTime(int months) {
         List<String> removedAccounts = new ArrayList<>();
 
-        for (Map.Entry i : accounts.entrySet()) {
-            String quickId = (String) i.getKey();
-            Account acct = (Account) i.getValue();
-
-            for (int j = 0; j < months; j++) {
-                double money = acct.getMoney();
-                if (money == 0) {
-                    removedAccounts.add(quickId);
+        getAccounts().forEach((id, account) ->
+        {
+            for (int i = 0; i < months; i++) {
+                double money = account.getMoney();
+                if (money == 0.0) {
+                    removedAccounts.add(id);
                 } else {
                     if (money < 100) {
-                        withdraw(quickId, 25);
+                        withdraw(id, 25);
                     }
-                    acct.passTime();
+                    account.passTime();
                 }
             }
-        }
+        });
 
-        for (int y = 0; y < removedAccounts.size(); y++) {
-            removeAccount(removedAccounts.get(y));
-            commands.removeCommands(removedAccounts.get(y));
-        }
+        removedAccounts.forEach(id -> removeCommands(id));
+        removedAccounts.forEach(id -> removeAccount(id));
+    }
+
+    public void removeCommands(String quickId) {
+        List<String> removedCommands = new ArrayList<>();
+
+        getCommands().getValidCommands().forEach(cmd ->
+        {
+            if (cmd.contains(quickId) && !cmd.toLowerCase().contains("transfer")) {
+                removedCommands.add(cmd);
+            }
+        });
+
+        removedCommands.forEach(cmd -> getCommands().getValidCommands().remove(cmd));
     }
 }

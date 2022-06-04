@@ -12,10 +12,11 @@ public class CommandProcessorTest {
     private static final String VALID_DEPOSIT_SAVINGS_CMD = "deposit 33225566 500";
     Bank bank;
     CommandProcessor commandProcessor;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         commandProcessor = new CommandProcessor(bank);
     }
 
@@ -120,5 +121,71 @@ public class CommandProcessorTest {
         commandProcessor.processor("pass 12");
         commandProcessor.processor("withdraw 87654321 2000");
         Assertions.assertEquals(0, bank.getAccounts().get("87654321").getMoney());
+    }
+
+    @Test
+    void valid_process_withdraw_from_checking_account_twice() {
+        commandProcessor.processor("create checking 12345678 1.0");
+        commandProcessor.processor("deposit 12345678 1000");
+        commandProcessor.processor("withdraw 12345678 100");
+        commandProcessor.processor("withdraw 12345678 200");
+
+        Assertions.assertEquals(700, bank.getAccounts().get("12345678").getMoney());
+    }
+
+    @Test
+    void valid_process_withdraw_from_savings_account_twice() {
+        commandProcessor.processor("create savings 12345678 1.0");
+        commandProcessor.processor("deposit 12345678 1000");
+        commandProcessor.processor("withdraw 12345678 100");
+        commandProcessor.processor("pass 1");
+        commandProcessor.processor("withdraw 12345678 200");
+
+        Assertions.assertEquals(700.75, bank.getAccounts().get("12345678").getMoney());
+    }
+
+    @Test
+    void valid_process_transfer_between_checking_and_checking_accounts() {
+        commandProcessor.processor("create checking 12345678 1.0");
+        commandProcessor.processor("deposit 12345678 1000");
+        commandProcessor.processor("create checking 22334455 1.0");
+        commandProcessor.processor("deposit 22334455 500");
+
+        commandProcessor.processor("transfer 12345678 22334455 200");
+        Assertions.assertEquals(700, bank.getAccounts().get("22334455").getMoney());
+        Assertions.assertEquals(800, bank.getAccounts().get("12345678").getMoney());
+    }
+
+    @Test
+    void valid_process_transfer_between_checking_and_savings_accounts() {
+        commandProcessor.processor("create checking 12345678 1.0");
+        commandProcessor.processor("deposit 12345678 1000");
+        commandProcessor.processor("create savings 22334455 1.0");
+        commandProcessor.processor("deposit 22334455 500");
+
+        commandProcessor.processor("transfer 12345678 22334455 200");
+        Assertions.assertEquals(700, bank.getAccounts().get("22334455").getMoney());
+        Assertions.assertEquals(800, bank.getAccounts().get("12345678").getMoney());
+    }
+
+    @Test
+    void valid_pass_time_command() {
+        commandProcessor.processor("create savings 12345678 1.0");
+        commandProcessor.processor("deposit 12345678 1000");
+        commandProcessor.processor("pass 2");
+
+        Assertions.assertEquals(1001.6673611111112, bank.getAccounts().get("12345678").getMoney());
+        Assertions.assertEquals(2, bank.getAccounts().get("12345678").getMonth());
+        Assertions.assertEquals(true, bank.getAccounts().get("12345678").getWithdrawRestriction());
+    }
+
+    @Test
+    void correct_restriction_after_withdraw_savings() {
+        commandProcessor.processor(VALID_SAVINGS_CMD);
+
+        commandProcessor.processor(VALID_DEPOSIT_SAVINGS_CMD);
+        commandProcessor.processor("withdraw 33225566 300");
+        Assertions.assertEquals(200, bank.getAccounts().get("33225566").getMoney());
+        Assertions.assertEquals(false, bank.getAccounts().get("33225566").getWithdrawRestriction());
     }
 }

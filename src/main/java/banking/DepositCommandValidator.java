@@ -29,17 +29,12 @@ public class DepositCommandValidator extends CommandValidator {
     @Override
     public boolean validate(String command) {
         List<String> commands = parseString(command);
-        setAmount(commands);
-        setId(commands);
-
-        if (validateAccountExists(getID())) {
-            if (validateDepositAmount(getAmount(), getID()) &&
-                    validateDepositLength(command) && validateID(getID())) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        try {
+            setAmount(commands);
+            setId(commands);
+            return (validateAccountExists(getID()) && validateDepositAmount(getAmount(), getID()) &&
+                    validateDepositLength(command) && validateID(getID()));
+        } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
         }
     }

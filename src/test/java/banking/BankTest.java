@@ -19,10 +19,11 @@ public class BankTest {
     Checking checking;
     Savings savings;
     CD cd;
+    CommandStorage commands;
 
     @BeforeEach
     void set_up() {
-        bank = new Bank();
+        bank = new Bank(commands);
         checking = new Checking(APR, 0);
         savings = new Savings(APR, 0);
         cd = new CD(APR, MONEY);
@@ -325,6 +326,4 @@ public class BankTest {
         Account actual = bank.getAccounts().get(QUICK_ID);
         assertTrue(actual.getMoney() == 0);
     }
-
-
 }

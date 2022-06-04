@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 public class CreateCommandProcessorTest {
     CreateCommandProcessor createProcessor;
     Bank bank;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         createProcessor = new CreateCommandProcessor(bank);
     }
 

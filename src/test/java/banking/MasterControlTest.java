@@ -10,12 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MasterControlTest {
     MasterControl masterControl;
+    CommandStorage commands;
     private List<String> input;
 
     @BeforeEach
     void setUp() {
         input = new ArrayList<>();
-        Bank bank = new Bank();
+        Bank bank = new Bank(commands);
         masterControl = new MasterControl(bank, new CommandValidator(bank),
                 new CommandProcessor(bank), new CommandStorage());
     }

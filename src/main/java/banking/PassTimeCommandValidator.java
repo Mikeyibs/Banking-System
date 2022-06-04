@@ -20,14 +20,10 @@ public class PassTimeCommandValidator extends CommandValidator {
     @Override
     public boolean validate(String command) {
         List<String> commands = parseString(command);
-        if (validatePassTimeLength(command)) {
+        try {
             setMonth(commands);
-            if (validateMonthInput(getMonth())) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+            return (validatePassTimeLength(command) && validateMonthInput(getMonth()));
+        } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
         }
     }

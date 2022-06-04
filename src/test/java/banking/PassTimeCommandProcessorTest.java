@@ -9,10 +9,11 @@ public class PassTimeCommandProcessorTest {
     Bank bank;
     CommandProcessor processor;
     PassTimeCommandProcessor passTime;
+    CommandStorage commands;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank();
+        bank = new Bank(commands);
         processor = new CommandProcessor(bank);
         passTime = new PassTimeCommandProcessor(bank);
     }
