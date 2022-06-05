@@ -85,7 +85,7 @@ public class CommandValidator {
             return false;
         }
         try {
-            Double dbl = Double.valueOf(num);
+            Double.valueOf(num);
         } catch (NumberFormatException ex) {
             return false;
         }

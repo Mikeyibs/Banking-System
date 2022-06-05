@@ -40,6 +40,13 @@ public class AccountCreationCommandValidationTest {
     }
 
     @Test
+    void invalid_create_checking_command_with_same_id_in_bank() {
+        bank.addAccount("12345678", checking);
+        boolean create = commandValidator.validate("create checking 12345678 1.0");
+        assertFalse(create);
+    }
+
+    @Test
     void invalid_create_checking_command_with_no_create() {
         boolean create = commandValidator.validate("checking 12345678 0.06");
         assertFalse(create);

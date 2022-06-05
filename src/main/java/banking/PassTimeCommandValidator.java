@@ -41,7 +41,7 @@ public class PassTimeCommandValidator extends CommandValidator {
             return false;
         }
         try {
-            int validMonth = Integer.parseInt(month);
+            Integer.parseInt(month);
         } catch (NumberFormatException nfe) {
             return false;
         }

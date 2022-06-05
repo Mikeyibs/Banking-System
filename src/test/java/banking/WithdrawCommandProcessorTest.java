@@ -82,6 +82,6 @@ public class WithdrawCommandProcessorTest {
         bank.passTime(12);
         withdraw.processor("withdraw 12345678 500");
 
-        Assertions.assertEquals(600, bank.getAccounts().get("12345678").getMoney());
+        Assertions.assertEquals(653.9772282882864, bank.getAccounts().get("12345678").getMoney());
     }
 }

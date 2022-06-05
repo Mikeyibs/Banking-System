@@ -140,4 +140,37 @@ public class OutputTest {
         Assertions.assertEquals("Cd 23456789 2000.00 1.20", finalOutput.get(3));
         Assertions.assertEquals("Deposit 12345678 5000", finalOutput.get(4));
     }
+
+    @Test
+    void output_valid_series_of_commands_that_tests_the_whole_system() {
+        processor.processor("create checking 12345678 1.0");
+        processor.processor("deposit 12345678 200");
+        processor.processor("withdraw 12345678 50");
+        processor.processor("create cd 22445566 1.0 1800");
+        processor.processor("create savings 66554433 1.0");
+        processor.processor("transfer 12345678 66554433 50");
+        processor.processor("deposit 66554433 500");
+        processor.processor("pass 2");
+        processor.processor("withdraw 66554433 50");
+
+        storage.storeValidCommands("create checking 12345678 1.0");
+        storage.storeValidCommands("deposit 12345678 200");
+        storage.storeValidCommands("withdraw 12345678 50");
+        storage.storeValidCommands("create cd 22445566 1.0 1800");
+        storage.storeValidCommands("create savings 66554433 1.0");
+        storage.storeValidCommands("transfer 12345678 66554433 50");
+        storage.storeValidCommands("deposit 66554433 500");
+        storage.storeValidCommands("pass 2");
+        storage.storeValidCommands("withdraw 66554433 50");
+
+        List<String> outputs = output.Output();
+        Assertions.assertEquals("Checking 12345678 100.16 1.00", outputs.get(0));
+        Assertions.assertEquals("deposit 12345678 200", outputs.get(1));
+        Assertions.assertEquals("withdraw 12345678 50", outputs.get(2));
+        Assertions.assertEquals("Cd 22445566 1812.02 1.00", outputs.get(3));
+        Assertions.assertEquals("Savings 66554433 500.91 1.00", outputs.get(4));
+        Assertions.assertEquals("transfer 12345678 66554433 50", outputs.get(5));
+        Assertions.assertEquals("deposit 66554433 500", outputs.get(6));
+        Assertions.assertEquals("withdraw 66554433 50", outputs.get(7));
+    }
 }

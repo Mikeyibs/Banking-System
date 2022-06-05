@@ -24,7 +24,7 @@ public abstract class Account {
     }
 
     public double getCalcAPR() {
-        return calcAPR;
+        return this.calcAPR;
     }
 
     public int getMonth() {

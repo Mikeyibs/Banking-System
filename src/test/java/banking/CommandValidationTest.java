@@ -168,9 +168,9 @@ public class CommandValidationTest {
     @Test
     void valid_withdraw_from_cd_account_command() {
         bank.addAccount(QUICK_ID, cd);
-        bank.passTime(13);
+        bank.passTime(12);
 
-        boolean actual = commandValidator.validate("withdraw 12345678 2000");
+        boolean actual = commandValidator.validate("withdraw 12345678 2100");
         Assertions.assertTrue(actual);
     }
 

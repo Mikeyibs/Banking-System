@@ -122,8 +122,8 @@ public class Output {
             setParameters(parsedStrings);
             String accountInfomation = String.format("%s %s %s %s", capitalize(getType()), getId(), getMoney(), getApr());
             outputList.add(accountInfomation);
-        } catch (NullPointerException npe) {
-            String err = "Error";
+        } catch (NullPointerException ignored) {
+
         }
     }
 

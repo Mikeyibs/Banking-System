@@ -62,10 +62,7 @@ public class CreateCommandProcessor extends CommandProcessor {
     }
 
     public void setVariables(List<String> commands) {
-        if (getType().equals("checking")) {
-            this.id = commands.get(2);
-            this.apr = Double.parseDouble(commands.get(3));
-        } else if (getType().equals("savings")) {
+        if (getType().equals("checking") || getType().equals("savings")) {
             this.id = commands.get(2);
             this.apr = Double.parseDouble(commands.get(3));
         } else if (getType().equals("cd")) {

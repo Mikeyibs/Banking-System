@@ -1,7 +1,6 @@
 package banking;// Name: Michael Ibrahim | ID: mi374 | Section: 001
 
 import java.util.List;
-import java.util.Objects;
 
 public class CreateCommandValidator extends CommandValidator {
     public static final double MIN_AMOUNT = (1000);
@@ -47,54 +46,41 @@ public class CreateCommandValidator extends CommandValidator {
             setType(commands);
             setVariables(commands);
             return (validateType(getType()) && validateIDExistsInBank(getID()) && validateAPR(getAPR()) && validateLength(commands)
-                    && validateAmount(getAmount()) && countCommands(commands));
+                    && validateAmount() && countCommands(commands));
         } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
         }
     }
 
     private boolean validateType(String type) {
-        if (Objects.equals(type, "checking") || Objects.equals(type, "savings") || Objects.equals(type, "cd")) {
+        if (type.equals("checking") || type.equals("savings") || type.equals("cd")) {
             return true;
         } else {
             return false;
         }
     }
 
-    private boolean validateAmount(String amount) {
-        if (getType().equals("checking") || getType().equals("savings")) {
+    private boolean validateAmount() {
+        if (getType().equals("cd") && Double.parseDouble(getAmount()) >= 1000 && Double.parseDouble(getAmount()) <= 10000) {
+            return true;
+        } else if (getType().equals("checking") || getType().equals("savings")) {
             return true;
         } else {
-            if (Double.parseDouble(getAmount()) >= 1000 && Double.parseDouble(getAmount()) <= 10000) {
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
     public boolean validateLength(List<String> commands) {
-        if (getType().equals("checking")) {
+        if (getType().equals("checking") || getType().equals("savings")) {
             if (commands.size() == 4) {
                 return true;
-            } else {
-                return false;
-            }
-        } else if (getType().equals("savings")) {
-            if (commands.size() == 4) {
-                return true;
-            } else {
-                return false;
             }
         } else if (getType().equals("cd")) {
             if (commands.size() == 5) {
                 return true;
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public void setVariables(List<String> commands) {

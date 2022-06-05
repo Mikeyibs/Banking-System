@@ -27,6 +27,44 @@ public class MasterControlTest {
     }
 
     @Test
+    void create_command_contains_typo() {
+        input.add("creat checking 12345678 1.0");
+
+        List<String> actual = masterControl.start(input);
+        assertSingleCommand("creat checking 12345678 1.0", actual);
+    }
+
+    @Test
+    void deposit_command_contains_typo() {
+        input.add("depositt 12345678 500");
+
+        List<String> actual = masterControl.start(input);
+        assertSingleCommand("depositt 12345678 500", actual);
+    }
+
+    @Test
+    void two_invalid_commands_with_typos() {
+        input.add("creat checking 12345678 1.0");
+        input.add("depositt 12345678 500");
+
+        List<String> actual = masterControl.start(input);
+
+        assertEquals(2, actual.size());
+        assertEquals("creat checking 12345678 1.0", actual.get(0));
+        assertEquals("depositt 12345678 500", actual.get(1));
+    }
+
+    @Test
+    void invalid_creation_of_two_accounts_with_same_ID() {
+        input.add("create checking 12345678 0.06");
+        input.add("create checking 12345678 0.06");
+
+        List<String> actual = masterControl.start(input);
+        assertEquals("Checking 12345678 0.00 0.06", actual.get(0));
+        assertEquals("create checking 12345678 0.06", actual.get(1));
+    }
+
+    @Test
     void sample_make_sure_this_passes_unchanged_or_you_will_fail() {
         input.add("Create savings 12345678 0.6");
         input.add("Deposit 12345678 700");

@@ -120,7 +120,7 @@ public class CommandProcessorTest {
         commandProcessor.processor(VALID_CD_CMD);
         commandProcessor.processor("pass 12");
         commandProcessor.processor("withdraw 87654321 2000");
-        Assertions.assertEquals(0, bank.getAccounts().get("87654321").getMoney());
+        Assertions.assertEquals(4.8052835215844425, bank.getAccounts().get("87654321").getMoney());
     }
 
     @Test
